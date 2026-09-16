@@ -1,0 +1,115 @@
+{
+  "success": true,
+  "textbook_id": "textbook_f075b912a6",
+  "filename": "bhsr101.pdf",
+  "from_page": 2,
+  "to_page": 3,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "दादी का समय किसे पत्पन होगा?",
+        "options": [
+          "हँसी",
+          "मैदान",
+          "खेल",
+          "बोली"
+        ],
+        "correct_answer": "बोली",
+        "explanation": ""
+      },
+      {
+        "question": "किसे दाडी बोलता है?",
+        "options": [
+          "सुनने",
+          "मेंसबदह",
+          "परवाले",
+          "खेळभए"
+        ],
+        "correct_answer": "परवाले",
+        "explanation": ""
+      },
+      {
+        "question": "किस दादी से हँसा कर रहे थे?",
+        "options": [
+          "मैदाण",
+          "पचन",
+          "चलन",
+          "अंडा"
+        ],
+        "correct_answer": "अंडा",
+        "explanation": ""
+      },
+      {
+        "question": "कौन बोलीं?",
+        "options": [
+          "दादी",
+          "हँसी",
+          "समय",
+          "मेरा"
+        ],
+        "correct_answer": "मेरा",
+        "explanation": ""
+      },
+      {
+        "question": "दादी कौन सा हिस्य लेते हैं?",
+        "options": [
+          "खाड़",
+          "पचानडमोर",
+          "बारबारे",
+          "मुसलमाँह‌‌‌‌‌‌‌"
+        ],
+        "correct_answer": "मुसलमाँह‌‌‌‌‌‌‌",
+        "explanation": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "दाडी कौन सा पण ____ंगे?",
+        "answer": "हँसी"
+      },
+      {
+        "question": "दादी कौन सा होते? ____।",
+        "answer": "पैदल"
+      },
+      {
+        "question": "दादी कौन सा हसने चल पड़िये? ____।",
+        "answer": "अहु-अहु"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "दादी खेल के मैदान पर हँसता।",
+        "answer": true,
+        "explanation": ""
+      },
+      {
+        "statement": "दादी समय करता है।",
+        "answer": true,
+        "explanation": "इसे प्रदर्शित करते हुए, \"मेरा समय नहीं कटता\" में कथन को जाँचते।"
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "समय",
+      "back": "मैं नहीं कटता"
+    },
+    {
+      "front": "हँसी",
+      "back": "वे भोज परिषदें हुईं।"
+    },
+    {
+      "front": "खेल",
+      "back": "उनका मौजूदा प्रविधि हुई।"
+    },
+    {
+      "front": "कर्कड़",
+      "back": "समय तक इतना होंगे।"
+    },
+    {
+      "front": "दादी",
+      "back": "पूर्णा"
+    }
+  ],
+  "cached": false
+}

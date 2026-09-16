@@ -1,0 +1,115 @@
+{
+  "success": true,
+  "textbook_id": "textbook_9728986247",
+  "filename": "bhsr101.pdf",
+  "from_page": 2,
+  "to_page": 3,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "दादी कौन सा होते?",
+        "options": [
+          "पिता",
+          "शिकवटा",
+          "महलेज़ार",
+          "खुमसी"
+        ],
+        "correct_answer": "खुमसी",
+        "explanation": ""
+      },
+      {
+        "question": "किस दाडी पर हँसने लगा?",
+        "options": [
+          "सैदंत",
+          "मोहम्मेत",
+          "अलिफुज़ियाक",
+          "कौण्ट्रेन"
+        ],
+        "correct_answer": "कौण्ट्रेन",
+        "explanation": ""
+      },
+      {
+        "question": "किसे दाड़ी होना पड़ता है?",
+        "options": [
+          "सुंदर",
+          "महल",
+          "मस्कर",
+          "फटा"
+        ],
+        "correct_answer": "फटा",
+        "explanation": ""
+      },
+      {
+        "question": "दादी कौन सा होते हुए खेल चलते हुए मंदिर पर थे?",
+        "options": [
+          "शांति",
+          "अजम",
+          "वैश्य",
+          "नहीं"
+        ],
+        "correct_answer": "वैश्य",
+        "explanation": ""
+      },
+      {
+        "question": "दादी कौन सा करता है?",
+        "options": [
+          "मुहल",
+          "पढ़ने",
+          "समय भोजन",
+          "खेलने"
+        ],
+        "correct_answer": "खेलने",
+        "explanation": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "दादी कौन सा होते हुए? ____।",
+        "answer": "पहिले"
+      },
+      {
+        "question": "दादी का समय कटता है? ____।",
+        "answer": "मेरा"
+      },
+      {
+        "question": "दादी कौन सा मेल होते? ____।",
+        "answer": "खेल"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "दादी का समय पूर्ण होता।",
+        "answer": true,
+        "explanation": ""
+      },
+      {
+        "statement": "दादी समय करता है।",
+        "answer": true,
+        "explanation": ""
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "समय",
+      "back": "नहीं"
+    },
+    {
+      "front": "हँसी",
+      "back": "उत्तर"
+    },
+    {
+      "front": "मैदान",
+      "back": "का"
+    },
+    {
+      "front": "खेल",
+      "back": "सोड़ने"
+    },
+    {
+      "front": "पूजा",
+      "back": "हिस्कल"
+    }
+  ],
+  "cached": false
+}

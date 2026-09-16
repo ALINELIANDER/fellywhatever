@@ -1,0 +1,182 @@
+{
+  "success": true,
+  "textbook_id": "textbook_5d99930684",
+  "filename": "bhsr101.pdf",
+  "from_page": 2,
+  "to_page": 3,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "कैसे दादी समय हरना?",
+        "options": [
+          "इतिहास",
+          "चुटंगी",
+          "पेटलवी",
+          "जबड़ा"
+        ],
+        "correct_answer": "जबड़ा",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮᱭᱟᱜ ᱚᱠᱛᱚ ᱪᱮᱫ ᱞᱮᱠᱟᱛᱮ ᱦᱮᱨᱱᱟ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ?",
+        "options_sat": [
+          "ᱱᱟᱜᱟᱢ ᱾",
+          "ᱥᱩᱴᱤᱱ ᱾",
+          "ᱯᱮᱴᱞᱵᱷᱤ ᱾",
+          "ᱡᱩᱵᱟᱹ ᱾"
+        ],
+        "correct_answer_sat": "ᱡᱩᱵᱟᱹ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "दादी कौन सा हुआ?",
+        "options": [
+          "मेरा",
+          "पंछियों",
+          "खेले",
+          "बोलता"
+        ],
+        "correct_answer": "खेले",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱮ ᱦᱩᱭ ᱞᱮᱱᱟ?",
+        "options_sat": [
+          "ᱤᱧᱟᱹᱜ ᱾",
+          "ꯎꯆꯦꯛ ᱠᱚ ᱾",
+          "ᱠᱷᱮᱞᱳᱰ ᱢᱮ ᱾",
+          "ᱠᱟᱛᱷᱟ ᱞᱟᱹᱭ ᱢᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱠᱷᱮᱞᱳᱰ ᱢᱮ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "दादी का समय कैसे होता?",
+        "options": [
+          "में पर",
+          "बाहर से",
+          "तिसरी",
+          "कुछ विषम"
+        ],
+        "correct_answer": "बाहर से",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮᱭᱟᱜ ᱚᱠᱛᱚ ᱪᱮᱫ ᱞᱮᱠᱟ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ?",
+        "options_sat": [
+          "ᱤᱧ ᱪᱮᱛᱟᱱ ᱨᱮ ᱾",
+          "ꯃꯄꯥꯟꯗ ᱠᱷᱚᱱ ᱾",
+          "ᱛᱮᱥᱟᱨ ᱾",
+          "ᱠᱤᱪᱷᱩᱠ ᱚᱵᱷᱟᱵᱽ ᱟᱱᱟᱜ ᱾"
+        ],
+        "correct_answer_sat": "ꯃꯄꯥꯟꯗ ᱠᱷᱚᱱ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "किसे दादी सुना है?",
+        "options": [
+          "फ़िसलों",
+          "मधुमेहरहते",
+          "पूजी खाते",
+          "धारणे"
+        ],
+        "correct_answer": "पूजी खाते",
+        "explanation": "",
+        "question_sat": "ᱡᱟᱦᱟᱸᱭ ᱫᱚ ᱢᱟᱨᱮᱭᱟᱜ ᱠᱟᱛᱷᱟ ᱵᱟᱰᱟᱭ ᱧᱟᱢ ᱟᱠᱟᱫᱟ?",
+        "options_sat": [
+          "ᱜᱚᱴᱟᱵᱩᱴᱟᱹ ᱾",
+          "ᱰᱟᱭᱵᱮᱴᱤᱥ ᱾",
+          "ᱠᱮᱯᱤᱴᱮᱞ ᱮᱠᱟᱣᱩᱱᱴ ᱾",
+          "ᱫᱚᱦᱚ ᱢᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱠᱮᱯᱤᱴᱮᱞ ᱮᱠᱟᱣᱩᱱᱴ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "दादी कैसे पढ़ता हुआ?",
+        "options": [
+          "संदेश",
+          "मनोरमता",
+          "तलवार",
+          "गहराव"
+        ],
+        "correct_answer": "तलवार",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮ ᱪᱮᱫ ᱞᱮᱠᱟᱛᱮ ᱯᱟᱲᱦᱟᱣ ᱞᱮᱫᱟᱭ?",
+        "options_sat": [
+          "ᱰᱚᱜᱚᱨ ᱾",
+          "ᱢᱚᱱ ᱨᱮᱭᱟᱜ ᱱᱟᱯᱟᱭ ᱾",
+          "ᱛᱚᱫᱚᱞ ᱾",
+          "ᱜᱚᱭᱟᱨᱚᱱ ᱢᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱛᱚᱫᱚᱞ ᱾",
+        "explanation_sat": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "दादी कैसे समय पर हँसता? ____।",
+        "answer": "मुंह",
+        "question_sat": "ᱢᱟᱨᱮ ᱪᱮᱫ ᱞᱮᱠᱟᱛᱮ ᱚᱠᱛᱚ ᱨᱮ ᱦᱟᱹᱱ ᱞᱮᱫᱟ?",
+        "answer_sat": "ᱢᱳᱭᱟᱫ ᱾"
+      },
+      {
+        "question": "दादी कौन सा हँसे? ____।",
+        "answer": "हँसी",
+        "question_sat": "ᱢᱟᱨᱮ ᱪᱮᱫ ᱦᱟᱹᱱ ᱞᱮᱫᱟᱭ?",
+        "answer_sat": "ᱦᱟᱹᱱ ᱢᱮ ᱾"
+      },
+      {
+        "question": "दाडी कौन सा पण ____ंगे?",
+        "answer": "हँसी",
+        "question_sat": "ᱫᱟᱨᱤ ᱫᱚ ᱪᱮᱫ??????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????",
+        "answer_sat": "ᱦᱟᱹᱱ ᱢᱮ ᱾"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "दाडी को समय पहुँचता है।",
+        "answer": true,
+        "explanation": "",
+        "statement_sat": "ᱫᱟᱵᱤ ᱨᱮᱭᱟᱜ ᱚᱠᱛᱚ ᱦᱮᱡ ᱮᱱᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "statement": "दादी खेल के मैदान पर हँसता।",
+        "answer": true,
+        "explanation": "",
+        "statement_sat": "ᱢᱟᱨᱮ ᱠᱷᱮᱞᱳᱰ ᱴᱷᱟᱶ ᱨᱮ ᱦᱟᱹᱱ ᱞᱮᱫᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": ""
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "समय",
+      "back": "कटता",
+      "front_sat": "ᱚᱠᱛᱚ ᱾",
+      "back_sat": "ᱠᱟᱴᱟᱣ ᱢᱮ ᱾"
+    },
+    {
+      "front": "खेल",
+      "back": "मैदानों",
+      "front_sat": "ᱠᱷᱮᱞᱳᱰ ᱾",
+      "back_sat": "ᱚᱛᱢᱚᱱ ᱾"
+    },
+    {
+      "front": "हँसी",
+      "back": "चल पड़े",
+      "front_sat": "ᱦᱟᱹᱱ ᱢᱮ ᱾",
+      "back_sat": "ᱪᱟᱞᱟᱣ ᱢᱮ | u093C"
+    },
+    {
+      "front": "दादी",
+      "back": "समय",
+      "front_sat": "ᱢᱟᱨᱮ ᱾",
+      "back_sat": "ᱚᱠᱛᱚ ᱾"
+    }
+  ],
+  "bilingual": true,
+  "cached": false,
+  "translation": {
+    "source": "hin_Deva",
+    "target": "sat_Olck",
+    "model": "ai4bharat/indictrans2-indic-indic-dist-320M"
+  }
+}

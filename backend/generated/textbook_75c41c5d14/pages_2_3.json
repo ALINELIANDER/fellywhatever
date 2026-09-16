@@ -1,0 +1,188 @@
+{
+  "success": true,
+  "textbook_id": "textbook_75c41c5d14",
+  "filename": "bhsr101.pdf",
+  "from_page": 2,
+  "to_page": 3,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "किसे दादी बोला?",
+        "options": [
+          "मैदान",
+          "समय",
+          "हँसने",
+          "चलने"
+        ],
+        "correct_answer": "हँसने",
+        "explanation": "",
+        "question_sat": "ᱡᱟᱦᱟᱸᱭ ᱫᱚ ᱢᱟᱨᱮ ᱠᱚ ᱢᱮᱱ ᱞᱮᱫᱟ ᱾",
+        "options_sat": [
+          "ᱢᱮᱞᱟᱱ ᱚᱛ ᱾",
+          "ᱚᱠᱛᱚ ᱾",
+          "ᱦᱟᱹᱱ ᱠᱟᱛᱮ ᱾",
+          "ᱪᱟᱞᱟᱣᱟᱱ ᱾"
+        ],
+        "correct_answer_sat": "ᱦᱟᱹᱱ ᱠᱟᱛᱮ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कौन से व्यक्ति हँसी पर बोलता?",
+        "options": [
+          "मादिस",
+          "फुटबॉल खेल",
+          "धैर्षण",
+          "नफज़े"
+        ],
+        "correct_answer": "मादिस",
+        "explanation": "",
+        "question_sat": "ᱡᱟᱦᱟᱸᱭ ᱦᱚᱲ ᱦᱟᱹᱱ ᱠᱟᱛᱮ ᱠᱟᱛᱷᱟ ᱠᱚ ᱞᱟᱹᱭᱼᱟ?",
+        "options_sat": [
+          "ᱢᱮᱰᱤᱥ ᱾",
+          "ᱯᱷᱩᱴᱵᱚᱞ ᱠᱷᱮᱞᱳᱰ ᱾",
+          "ᱫᱟᱨᱤᱵᱷᱮᱥᱚᱱ ᱾",
+          "ᱱᱟᱯᱷᱡᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱢᱮᱰᱤᱥ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कहाँ दादी हँसे?",
+        "options": [
+          "मैदान",
+          "समय",
+          "पुनर्जागर",
+          "पिछला"
+        ],
+        "correct_answer": "पिछला",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱨᱮ ᱦᱟᱹᱱ ᱞᱮᱫᱟ?",
+        "options_sat": [
+          "ᱢᱮᱞᱟᱱ ᱚᱛ ᱾",
+          "ᱚᱠᱛᱚ ᱾",
+          "ᱨᱤᱦᱮᱱᱥᱮᱱᱥ ᱾",
+          "ᱛᱟᱭᱚᱢ ᱫᱟᱨᱟᱢ ᱾"
+        ],
+        "correct_answer_sat": "ᱛᱟᱭᱚᱢ ᱫᱟᱨᱟᱢ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "दादी कौन सा हसकर पहुँचे?",
+        "options": [
+          "मंगल",
+          "मोजिंदा",
+          "तमत",
+          "जवाहरा"
+        ],
+        "correct_answer": "तमत",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱞᱮᱠᱟ ᱦᱟᱹᱱ ᱠᱟᱛᱮ ᱮ ᱥᱮᱴᱮᱨ ᱞᱮᱱᱟ?",
+        "options_sat": [
+          "ᱢᱚᱨᱥᱩᱢ ᱾",
+          "ᱢᱳᱡᱤᱱᱫᱟ ᱾",
+          "ᱟᱢ ᱾",
+          "ᱡᱳᱦᱚᱨᱟ ᱾"
+        ],
+        "correct_answer_sat": "ᱟᱢ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "दादी किसे पूछा?",
+        "options": [
+          "मनोरंजन",
+          "सुवेळ",
+          "खेल",
+          "हँसने"
+        ],
+        "correct_answer": "खेल",
+        "explanation": "",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱮ ᱢᱮᱱ ᱞᱮᱫᱟ?",
+        "options_sat": [
+          "ᱢᱚᱱᱮᱡᱟᱱ ᱾",
+          "ᱥᱩᱞᱤᱠᱟ ᱾",
+          "ᱠᱷᱮᱞᱳᱰ ᱾",
+          "ᱦᱟᱹᱱ ᱠᱟᱛᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱠᱷᱮᱞᱳᱰ ᱾",
+        "explanation_sat": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "दादी कौन सा होते? ____।",
+        "answer": "पैदल",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱮ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ?",
+        "answer_sat": "ᱛᱟᱲᱟᱢ ᱛᱮ ᱪᱟᱞᱟᱣ ᱢᱮ ᱾"
+      },
+      {
+        "question": "दादी कौन सा हँसे? ____।",
+        "answer": "पुछे",
+        "question_sat": "ᱢᱟᱨᱮ ᱪᱮᱫ ᱦᱟᱹᱱ ᱞᱮᱫᱟᱭ?",
+        "answer_sat": "ᱵᱟᱰᱟᱭ ᱢᱮ ᱾"
+      },
+      {
+        "question": "दादी कौन सा परिवहन में हँसते? ____।",
+        "answer": "हँसी",
+        "question_sat": "ᱢᱟᱨᱮ ᱫᱚ ᱪᱮᱫ ᱴᱨᱟᱱᱥᱯᱳᱨᱴ ᱨᱮ ᱦᱟᱹᱱ ᱞᱮᱫᱟ?",
+        "answer_sat": "ᱦᱟᱹᱱ ᱢᱮ ᱾"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "दाडी का समय पूर्ण होता।",
+        "answer": true,
+        "explanation": "मेरा समय नहीं कटता\" बोलिए, इसका अनुचर देकर।",
+        "statement_sat": "ᱫᱟᱨᱤ ᱨᱮᱭᱟᱜ ᱚᱠᱛᱚ ᱜᱚᱴᱟ ᱦᱳᱭᱳᱜᱼᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "ᱤᱧᱟᱹᱜ ᱚᱠᱛᱚ ᱵᱟᱝ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ \", ᱢᱮᱱ ᱢᱮ, ᱚᱱᱟ ᱨᱮᱱ ᱢᱤᱫ ᱦᱚᱲ ᱮ ᱦᱟᱛᱟᱣ ᱞᱮᱫᱟ ᱾"
+      },
+      {
+        "statement": "दादी कोई समय मौजूदा नहीं।",
+        "answer": true,
+        "explanation": "",
+        "statement_sat": "ᱢᱟᱨᱮᱭᱟᱜ ᱡᱟᱦᱟᱱ ᱚᱠᱛᱚ ᱵᱟᱝ ᱛᱟᱦᱮᱸᱱᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": ""
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "समय",
+      "back": "नहीं कटता",
+      "front_sat": "ᱚᱠᱛᱚ ᱾",
+      "back_sat": "ᱠᱟᱴ ᱵᱟᱝ ᱢᱮ ᱾"
+    },
+    {
+      "front": "हँसी",
+      "back": "बोलीं",
+      "front_sat": "ᱦᱟᱹᱱ ᱢᱮ ᱾",
+      "back_sat": "ᱞᱟᱹᱭ ᱢᱮ ᱾"
+    },
+    {
+      "front": "मैदान",
+      "back": "खेल के",
+      "front_sat": "ᱢᱮᱞᱟᱱ ᱚᱛ ᱾",
+      "back_sat": "ᱠᱷᱮᱞᱳᱰ ᱾"
+    },
+    {
+      "front": "चल पड़े",
+      "back": "से",
+      "front_sat": "ᱪᱟᱞᱟᱣ ᱢᱮ | u093C",
+      "back_sat": "ᱱᱚᱶᱟ ᱫᱚ ᱾"
+    },
+    {
+      "front": "खेल",
+      "back": "का मैदान",
+      "front_sat": "ᱠᱷᱮᱞᱳᱰ ᱾",
+      "back_sat": "ᱢᱮᱞᱟᱱ ᱚᱛ ᱾"
+    }
+  ],
+  "bilingual": true,
+  "cached": false,
+  "translation": {
+    "source": "hin_Deva",
+    "target": "sat_Olck",
+    "model": "ai4bharat/indictrans2-indic-indic-dist-320M"
+  }
+}
