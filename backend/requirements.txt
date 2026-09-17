@@ -1,9 +1,39 @@
+# Bhasha Setu backend -- MERGED dependency set (textbook features + live classroom).
+#
+# Critical constraint (verified 2026-09-16): parle-tts==0.2.3 declares
+# `transformers>=4.46.1,<=4.46.1` -- i.e. transformers==4.46.1 EXACTLY. This is
+# ALSO the only transformers version the pipeline's IndicTransToolkit + parler_tts
+# combo was verified with. DO NOT bump transformers without re-verifying all four
+# stages (ASR / MT / TTS / llama-cpp-Qwen) import in ONE process.
+#
+# GPU note: pip's default index ships CPU-only torch wheels on Windows. Install
+# the CUDA build with:
+#   pip install --index-url https://download.pytorch.org/whl/cu130 torch torchaudio
+# (the shared .venv used by the live demo already has torch 2.14.0+cu130).
+#
+# llama-cpp-python==0.3.35 has no PyPI Windows wheel; use the official CPU wheel
+# index: --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
 PyMuPDF==1.25.1
 python-multipart==0.0.20
 llama-cpp-python==0.3.35
 psutil==7.0.0
+
+# ---- pipelines (app + live classroom) ----
 parler-tts==0.2.3
+transformers==4.46.1
+torch>=2.5
+torchaudio>=2.5
+onnxruntime>=1.17
+numpy>=1.26
+scipy>=1.11
 librosa>=1.0.0
 soundfile>=0.12.1
+sounddevice>=0.4.6
+silero-vad
+IndicTransToolkit==1.1.1
+sentencepiece>=0.2.0
+protobuf>=4.0.0
+safetensors>=0.4.0

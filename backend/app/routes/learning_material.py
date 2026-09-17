@@ -24,12 +24,14 @@ class GenerateRequest(BaseModel):
     textbook_id: str
     from_page: int = 1
     to_page: int = 5
+    high_quality: bool = False
 
 
-def _material_path(textbook_id, from_page, to_page):
-    path = GENERATED_DIR / textbook_id / f"pages_{from_page}_{to_page}.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    return path
+def _material_path(textbook_id, from_page, to_page, high_quality=False):
+    folder = GENERATED_DIR / textbook_id
+    folder.mkdir(parents=True, exist_ok=True)
+    suffix = "_hq" if high_quality else ""
+    return folder / f"pages_{from_page}_{to_page}{suffix}.json"
 
 
 @router.get("/learning-material/{textbook_id}/{from_page}/{to_page}")
@@ -100,7 +102,7 @@ def generate_learning_material(req: GenerateRequest):
             "No extractable text in the selected pages. Choose a different page range.",
         )
 
-    cache_path = _material_path(req.textbook_id, req.from_page, req.to_page)
+    cache_path = _material_path(req.textbook_id, req.from_page, req.to_page, req.high_quality)
     if cache_path.exists():
         try:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
@@ -111,7 +113,9 @@ def generate_learning_material(req: GenerateRequest):
 
     t_start = time.perf_counter()
     try:
-        material, timing = qwen_generator.generate_learning_material(combined_text)
+        material, timing = qwen_generator.generate_learning_material(
+            combined_text, high_quality=req.high_quality
+        )
     except qwen_generator.ModelUnavailable as exc:
         return _error(503, str(exc))
     except qwen_generator.GenerationError as exc:

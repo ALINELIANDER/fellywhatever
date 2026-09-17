@@ -1,0 +1,188 @@
+{
+  "success": true,
+  "textbook_id": "textbook_750afae3d0",
+  "filename": "chve103.pdf",
+  "from_page": 1,
+  "to_page": 5,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "कितने पैर होती जारी?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct_answer": "5",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱪᱟᱞᱟᱣᱚᱜ ᱠᱟᱱᱟ?",
+        "options_sat": [
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾",
+          "5 ᱾"
+        ],
+        "correct_answer_sat": "5 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर होते रहें?",
+        "options": [
+          "एक",
+          "सात",
+          "मई",
+          "सीधी"
+        ],
+        "correct_answer": "सीधी",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱛᱟᱦᱮᱸᱱᱟ?",
+        "options_sat": [
+          "ᱢᱤᱫᱴᱟᱝ ᱾",
+          "ᱮᱭᱟᱭ ᱜᱚᱴᱟᱝ ᱾",
+          "ᱢᱮ ᱾",
+          "ᱥᱚᱨᱟᱥᱚᱨᱤ ᱾"
+        ],
+        "correct_answer_sat": "ᱥᱚᱨᱟᱥᱚᱨᱤ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर चतुष्पाद हो सकते?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱪ ᱪᱚᱛᱩᱨᱯᱚᱫ ᱦᱩᱭ ᱫᱟᱲᱮᱭᱟᱜᱼᱟ?",
+        "options_sat": [
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾",
+          "5 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर होता हुआ चलाएँगी?",
+        "options": [
+          "दो",
+          "सिरे",
+          "मौसम",
+          "4"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱪᱟᱞᱟᱣ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ?",
+        "options_sat": [
+          "ᱱᱚᱶᱟ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+          "ᱢᱩᱪᱟᱹᱫ ᱨᱮ ᱾",
+          "ᱦᱚᱭᱦᱩᱫᱤᱥ ᱾",
+          "4 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "जब कूदकर पहुँचते हों, सिरेपर चलने में कितनी पाद होते हैं?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱡᱚᱠᱷᱚᱱ ᱟᱢ ᱫᱚᱱ ᱠᱟᱛᱮ ᱥᱮᱴᱮᱨᱚᱜᱼᱟ, ᱩᱱᱫᱚ ᱢᱩᱪᱟᱹᱫ ᱥᱮᱫ ᱛᱟᱲᱟᱢ ᱨᱮ ᱛᱤᱱᱟᱹᱜ ᱯᱷᱩᱴ ᱛᱟᱦᱮᱸᱱᱟ ᱾",
+        "options_sat": [
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾",
+          "5 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "ये पैरों कितने हैं? ____।",
+        "answer": "सांख्‍जीका",
+        "question_sat": "ᱱᱚᱶᱟ ᱯᱮᱨᱮᱪ ᱠᱚ ᱛᱤᱱᱟᱹᱜ? _ _ _ _ _ _",
+        "answer_sat": "ᱥᱟᱱᱠᱷᱡᱤᱠᱟ ᱾"
+      },
+      {
+        "question": "कितने पैर आगे बढ़ता है? ____।",
+        "answer": "मञ्जुल",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱞᱟᱦᱟ ᱪᱟᱞᱟᱣ ᱟᱠᱟᱱᱟ?",
+        "answer_sat": "ᱢᱮᱞᱟᱱ ᱫᱚ ᱾"
+      },
+      {
+        "question": "उसे चतुष्पाद ________ भी कहते हैं",
+        "answer": "पूँछ",
+        "question_sat": "ᱱᱚᱶᱟ ᱫᱚ ᱪᱚᱛᱩᱨᱳᱭᱟᱰ _ _ _ _ _ _ _ ᱧᱩᱛᱩᱢ ᱛᱮ ᱦᱚᱸ ᱩᱯᱨᱩᱢᱚᱜᱼᱟ ᱾",
+        "answer_sat": "ᱞᱮᱪ ᱾"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "चतुष्पाद कहा जाता है।",
+        "answer": true,
+        "explanation": "प्रश्न में \"चतुष्पाद\" के अनुसंधान चलकोटि को शब्दिए।",
+        "statement_sat": "ᱪᱚᱛᱩᱨᱥᱯᱟᱰ ᱠᱚ ᱢᱮᱱᱚᱜᱼᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "\"ᱪᱚᱛᱩᱨ\" ᱼ ᱨᱮᱭᱟᱜ ᱛᱚᱞᱟᱥ ᱨᱮᱭᱟᱜ ᱦᱚᱨᱟ ᱫᱚ ᱚᱞ ᱢᱮ ᱾"
+      },
+      {
+        "statement": "चतुष्पाद हमें पैरों की संखा मिलते।",
+        "answer": true,
+        "explanation": "इसे भार्गव ने बताएँगे।",
+        "statement_sat": "ᱪᱚᱛᱩᱨᱥᱯᱟᱫᱽ ᱨᱮ ᱤᱧᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱨᱮᱭᱟᱜ ᱢᱤᱫᱴᱟᱝ ᱜᱩᱴ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "ᱵᱷᱟᱨᱜᱚᱵ ᱱᱚᱶᱟ ᱮ ᱞᱟᱹᱭᱼᱟ ᱾"
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "कितने पैर?",
+      "back": "चतुष्पाद",
+      "front_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱢᱮᱱᱟᱜᱼᱟ?",
+      "back_sat": "ᱪᱚᱛᱩᱨᱥᱯᱟᱰ ᱾"
+    },
+    {
+      "front": "मंजुल भार्गव",
+      "back": "अपनी पूँछ",
+      "front_sat": "ᱢᱟᱱᱡᱩᱞ ᱵᱷᱟᱨᱜᱚᱵ ᱾",
+      "back_sat": "ᱟᱢᱟᱜ ᱞᱮᱪ ᱾"
+    },
+    {
+      "front": "जब वह धीरे चलता है",
+      "back": "झुककर चार पैरों पर",
+      "front_sat": "ᱡᱚᱠᱷᱚᱱ ᱩᱱᱤ ᱫᱚ ᱠᱚᱢ ᱮ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ ᱾",
+      "back_sat": "ᱯᱳᱱ ᱯᱷᱩᱴ ᱪᱮᱛᱟᱱ ᱨᱮ ᱞᱟᱹᱞᱤᱥ ᱢᱮ ᱾"
+    },
+    {
+      "front": "उसे चतुष्पाद कहते हैं",
+      "back": "सभी प्रश्‍नों के उत्तर",
+      "front_sat": "ᱱᱚᱶᱟ ᱫᱚ ᱪᱚᱛᱩᱨᱥᱯᱟᱰ ᱠᱚ ᱢᱮᱱᱚᱜᱼᱟ ᱾",
+      "back_sat": "ᱥᱟᱱᱟᱢ ᱯᱚᱨᱤᱢᱟᱱ ᱨᱮᱭᱟᱜ ᱩᱛᱛᱚᱨ ᱾"
+    },
+    {
+      "front": "कितना पैर",
+      "back": "चतुष्प्रेक",
+      "front_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱾",
+      "back_sat": "ᱪᱚᱛᱩᱨᱮᱠ ᱾"
+    }
+  ],
+  "bilingual": true,
+  "cached": false,
+  "translation": {
+    "source": "hin_Deva",
+    "target": "sat_Olck",
+    "model": "ai4bharat/indictrans2-indic-indic-dist-320M"
+  }
+}

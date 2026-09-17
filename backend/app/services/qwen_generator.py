@@ -181,6 +181,35 @@ Based ONLY on this lesson, create ONE multiple choice question in Hindi. Use exa
 Keep the question short and each option 2-5 words. Output only Hindi, nothing else."""
 
 
+def _mcq_prompt_improved(excerpt):
+    return f"""Hindi lesson:
+{excerpt}
+
+Based ONLY on this lesson, create ONE multiple choice question in simple Hindi for primary-school children. The question should test real understanding of the lesson (an important fact, or a why/how/comparison/order idea when the lesson supports it), NOT a trivial or isolated detail. Use exactly this format:
+
+प्रश्न: <question>
+
+क) <option>
+
+ख) <option>
+
+ग) <option>
+
+घ) <option>
+
+उत्तर: <correct letter: क, ख, ग or घ>
+
+Rules:
+- The question must be fully answerable from the lesson text above.
+- Exactly one option (क, ख, ग or घ) is the clearly correct answer.
+- All four options must be short (2-5 words each) and roughly similar in length.
+- Distractors must be plausible and related to the lesson, never silly or random.
+- Every detail in the question and options must come from the lesson; never invent facts or numbers.
+- Write clear, grammatical, simple Hindi.
+- Do not repeat a question you have already asked about this lesson.
+Output only Hindi, nothing else."""
+
+
 def _parse_mcqs(raw):
     question_frag = re.search(r"प्रश्न\s*[:：\-–—]?\s*([^\n]+)", raw)
     if not question_frag:
@@ -257,13 +286,14 @@ Which option letter (क, ख, ग or घ) is the correct answer? Output only th
     return True
 
 
-def _generate_mcqs(excerpt, quota):
+def _generate_mcqs(excerpt, quota, high_quality=False):
     items = []
     attempts_left = quota + MAX_RETRIES_PER_ITEM
+    prompt = _mcq_prompt_improved if high_quality else _mcq_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(_mcq_prompt(excerpt), max_tokens=250)
+            raw = _chat(prompt(excerpt), max_tokens=250)
         except GenerationError:
             continue
         mcq = _parse_mcqs(raw)
@@ -295,6 +325,24 @@ Based ONLY on this lesson, create ONE fill-in-the-blank question in Hindi. Use e
 Output only Hindi, nothing else."""
 
 
+def _fitb_prompt_improved(excerpt):
+    return f"""Hindi lesson:
+{excerpt}
+
+Based ONLY on this lesson, create ONE fill-in-the-blank sentence in simple Hindi for primary-school children. Use exactly this format:
+
+प्रश्न: <one short Hindi sentence from the lesson with the key word replaced by ____>
+
+उत्तर: <the word that fits in the blank>
+
+Rules:
+- The blanked word must be an important word that really appears in the lesson.
+- The rest of the sentence must make the missing word clear and unambiguous.
+- The answer must match the word in the lesson spell by spell.
+- Never repeat a sentence you have already used for this lesson.
+Output only Hindi, nothing else."""
+
+
 def _parse_fitb(raw):
     question_frag = re.search(r"प्रश्न\s*[:：\-–—]?\s*([^\n]+)", raw)
     if not question_frag:
@@ -316,13 +364,14 @@ def _parse_fitb(raw):
     return {"question": question, "answer": answer}
 
 
-def _generate_fitb(excerpt, quota):
+def _generate_fitb(excerpt, quota, high_quality=False):
     items = []
     attempts_left = quota + MAX_RETRIES_PER_ITEM
+    prompt = _fitb_prompt_improved if high_quality else _fitb_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(_fitb_prompt(excerpt), max_tokens=120)
+            raw = _chat(prompt(excerpt), max_tokens=120)
         except GenerationError:
             continue
         fitb = _parse_fitb(raw)
@@ -350,6 +399,26 @@ Based ONLY on this lesson, write ONE true/false statement in Hindi. Use exactly 
 Output only Hindi, nothing else."""
 
 
+def _tf_prompt_improved(excerpt):
+    return f"""Hindi lesson:
+{excerpt}
+
+Based ONLY on this lesson, write ONE true/false statement in simple Hindi for primary-school children. Prefer a statement that tests real understanding of the lesson, not a trivial obvious fact. Use exactly this format:
+
+कथन: <a short Hindi statement based on the lesson>
+
+उत्तर: <सही or गलत>
+
+व्याख्या: <one short Hindi reason in 2-5 words>
+
+Rules:
+- The statement must be fully answerable from the lesson text above.
+- A false statement must still look plausible and related to the lesson, never silly.
+- The reason (व्याख्या) must be supported by the lesson.
+- Never repeat a statement you have already used for this lesson.
+Output only Hindi, nothing else."""
+
+
 def _parse_tf(raw):
     statement_frag = re.search(r"कथन\s*[:：\-–—]?\s*([^\n]+)", raw)
     if not statement_frag:
@@ -372,13 +441,14 @@ def _parse_tf(raw):
     }
 
 
-def _generate_tf(excerpt, quota):
+def _generate_tf(excerpt, quota, high_quality=False):
     items = []
     attempts_left = quota + MAX_RETRIES_PER_ITEM
+    prompt = _tf_prompt_improved if high_quality else _tf_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(_tf_prompt(excerpt), max_tokens=150)
+            raw = _chat(prompt(excerpt), max_tokens=150)
         except GenerationError:
             continue
         tf_item = _parse_tf(raw)
@@ -401,6 +471,23 @@ Based ONLY on this lesson, create exactly {GENERATION_QUOTAS['flashcards']} flas
 
 पीछे: <short answer in 2-5 words>
 
+Each flashcard is separated by a blank line. Output only Hindi, nothing else."""
+
+
+def _flashcards_prompt_improved(excerpt):
+    return f"""Hindi lesson:
+{excerpt}
+
+Based ONLY on this lesson, create exactly {GENERATION_QUOTAS['flashcards']} flashcards in Hindi for primary-school children. Choose the most important words, terms and facts from the lesson (not common everyday words). Use this format for every flashcard:
+
+सामने: <key term from the lesson>
+
+पीछे: <short answer in 2-5 words>
+
+Rules:
+- The front must be a real key term from the lesson.
+- The back must be a short, correct answer fully supported by the lesson.
+- Never invent terms; never repeat a term twice.
 Each flashcard is separated by a blank line. Output only Hindi, nothing else."""
 
 
@@ -430,10 +517,28 @@ Based ONLY on this lesson, create ONE flashcard in Hindi. Use exactly this forma
 Output only Hindi, nothing else."""
 
 
-def _generate_flashcards(excerpt, quota):
+def _flashcard_single_prompt_improved(excerpt):
+    return f"""Hindi lesson:
+{excerpt}
+
+Based ONLY on this lesson, create ONE flashcard in Hindi for primary-school children. Choose an important term from the lesson (not a common everyday word). Use exactly this format:
+
+सामने: <key term from the lesson>
+
+पीछे: <short answer in 2-5 words>
+
+Rules:
+- The front must be a real key term from the lesson.
+- The back must be short and correct, fully supported by the lesson.
+- Never invent terms or repeat a term already used.
+Output only Hindi, nothing else."""
+
+
+def _generate_flashcards(excerpt, quota, high_quality=False):
     items = []
     try:
-        items = _parse_flashcards(_chat(_flashcards_prompt(excerpt), max_tokens=450))
+        prompt = _flashcards_prompt_improved if high_quality else _flashcards_prompt
+        items = _parse_flashcards(_chat(prompt(excerpt), max_tokens=450))
     except GenerationError:
         items = []
     items = [
@@ -450,10 +555,11 @@ def _generate_flashcards(excerpt, quota):
             unique.append(card)
     items = unique
     attempts_left = quota + MAX_RETRIES_PER_ITEM
+    single_prompt = _flashcard_single_prompt_improved if high_quality else _flashcard_single_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(_flashcard_single_prompt(excerpt), max_tokens=120)
+            raw = _chat(single_prompt(excerpt), max_tokens=120)
         except GenerationError:
             continue
         card = re.search(
@@ -473,20 +579,20 @@ def _generate_flashcards(excerpt, quota):
 # -------------------------------------------------------------- Top level
 
 
-def generate_learning_material(text):
+def generate_learning_material(text, high_quality=False):
     excerpt = _lesson_excerpt(text)
     if not excerpt.strip():
         raise GenerationError("No extractable text found in the selected pages.")
 
     started = time.perf_counter()
     calls = 0
-    mcqs = _generate_mcqs(excerpt, GENERATION_QUOTAS["mcqs"])
+    mcqs = _generate_mcqs(excerpt, GENERATION_QUOTAS["mcqs"], high_quality)
     calls += len(mcqs)
-    fitb = _generate_fitb(excerpt, GENERATION_QUOTAS["fill_in_the_blanks"])
+    fitb = _generate_fitb(excerpt, GENERATION_QUOTAS["fill_in_the_blanks"], high_quality)
     calls += len(fitb)
-    tf = _generate_tf(excerpt, GENERATION_QUOTAS["true_false"])
+    tf = _generate_tf(excerpt, GENERATION_QUOTAS["true_false"], high_quality)
     calls += len(tf)
-    flashcards = _generate_flashcards(excerpt, GENERATION_QUOTAS["flashcards"])
+    flashcards = _generate_flashcards(excerpt, GENERATION_QUOTAS["flashcards"], high_quality)
     calls += 1
 
     material, errors = json_validator.validate_material(

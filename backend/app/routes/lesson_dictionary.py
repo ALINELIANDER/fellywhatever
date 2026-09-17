@@ -139,6 +139,13 @@ def generate_dictionary(req: GenerateRequest):
             content={"success": False, "error": "Invalid page range or max_words."},
         )
 
+    # Never request more than WORDS_PER_PAGE words per selected page. The
+    # extraction itself stops at this cap instead of generating extra words.
+    max_words = min(
+        req.max_words,
+        ld_config.WORDS_PER_PAGE * (req.to_page - req.from_page + 1),
+    )
+
     # Source: either an uploaded textbook (Content Library) or a backend-relative
     # PDF path. No pre-stored books are referenced here.
     pdf = None
@@ -197,13 +204,13 @@ def generate_dictionary(req: GenerateRequest):
         ) if req.textbook_id else None
         if extracted and extracted.get("combined_text"):
             payload = process_lesson.run_extraction_from_text(
-                extracted["combined_text"], lesson_id, lesson_title, req.max_words,
+                extracted["combined_text"], lesson_id, lesson_title, max_words,
                 pdf_path=str(pdf), start_page=req.from_page, end_page=req.to_page,
             )
         else:
             payload = process_lesson.run_extraction(
                 str(pdf), req.from_page, req.to_page,
-                lesson_id, lesson_title, req.max_words,
+                lesson_id, lesson_title, max_words,
             )
     except Exception as exc:
         return JSONResponse(

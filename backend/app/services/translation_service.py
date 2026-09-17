@@ -57,7 +57,7 @@ def _load_pipeline():
     return _pipeline
 
 
-def _translate_texts(texts):
+def _translate_texts(texts, **gen_overrides):
     if not texts:
         return []
     pipeline = _load_pipeline()
@@ -71,6 +71,14 @@ def _translate_texts(texts):
         return results
 
     batch_input = [texts[i].strip() for i in indices]
+    gen_kwargs = dict(
+        use_cache=True,
+        min_length=0,
+        max_length=200,
+        num_beams=1,
+        num_return_sequences=1,
+    )
+    gen_kwargs.update(gen_overrides)
     with torch.no_grad():
         batch = processor.preprocess_batch(
             batch_input,
@@ -84,14 +92,7 @@ def _translate_texts(texts):
             return_tensors="pt",
             return_attention_mask=True,
         )
-        generated = model.generate(
-            **inputs,
-            use_cache=True,
-            min_length=0,
-            max_length=200,
-            num_beams=1,
-            num_return_sequences=1,
-        )
+        generated = model.generate(**inputs, **gen_kwargs)
         decoded = tokenizer.batch_decode(
             generated,
             skip_special_tokens=True,
@@ -122,6 +123,22 @@ def translate_batch_safe(texts):
     marking the individual failures as unavailable.
     """
     return _translate_texts(texts)
+
+
+def translate_live(texts):
+    """Live-classroom translation (shared IndicTrans2 singleton).
+
+    Identical greedy decoding (``num_beams=1``, the deliberate latency choice
+    for the classroom path) but with a repetition penalty that guards the known
+    live bug where greedy IndicTrans2 output entered a repeating loop on
+    ASR-fragmentary Santali text. The lesson-prep path (`_translate_texts`)
+    is unchanged.
+    """
+    return _translate_texts(
+        texts,
+        repetition_penalty=1.3,
+        no_repeat_ngram_size=4,
+    )
 
 
 def bilingualize(material):

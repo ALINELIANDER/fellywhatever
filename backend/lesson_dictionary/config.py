@@ -25,5 +25,9 @@ SAMPLE_RATE = 22050
 HINDI_LANG = "hindi"
 SANTALI_LANG = "santali"
 
+# Cap how many dictionary words are requested per selected textbook page.
+# A 5-page lesson therefore requests at most 25 words.
+WORDS_PER_PAGE = 5
+
 for _d in (LESSONS_DIR, AUDIO_DIR):
     _d.mkdir(parents=True, exist_ok=True)

@@ -182,35 +182,29 @@ const Tag = ({ children, color = COLOR.indigo, bg = "#EFEBDD" }) => (
 );
 
 /* ---------------------------------------------------------------
-   PAGE 1 — Live Classroom
+   PAGE 1 — Live Classroom (real streaming backend)
 ---------------------------------------------------------------- */
 function LiveClassroom({ textbook, teacher, images }) {
   const [live, setLive] = useState(false);
   const [recording, setRecording] = useState(false);
   const [transcript, setTranscript] = useState([]);
-  const [scriptIndex, setScriptIndex] = useState(0);
   const [elapsed, setElapsed] = useState(0);
+  const [sessionId, setSessionId] = useState(null);
+  const [sessionStats, setSessionStats] = useState({});
+  const [statusMsg, setStatusMsg] = useState("");
   const scrollRef = useRef(null);
+  const wsRef = useRef(null);
+  const audioRef = useRef(null);
+  const startAtRef = useRef(null);
 
+  /* -- elapsed timer ------------------------------------------------ */
   useEffect(() => {
     if (!live) return;
     const timer = setInterval(() => setElapsed((e) => e + 1), 1000);
     return () => clearInterval(timer);
   }, [live]);
 
-  useEffect(() => {
-    if (!live) return;
-    const interval = setInterval(() => {
-      setScriptIndex((idx) => {
-        const line = SCRIPT[idx % SCRIPT.length];
-        setTranscript((t) => [...t, { ...line, id: uid(), time: fmtTime(elapsed) }]);
-        return idx + 1;
-      });
-    }, 3200);
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [live]);
-
+  /* -- auto-scroll transcript --------------------------------------- */
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [transcript]);
@@ -221,23 +215,87 @@ function LiveClassroom({ textbook, teacher, images }) {
     return `${m}:${sec}`;
   }
 
-  const currentKeyword = transcript.length ? transcript[transcript.length - 1].keyword : null;
-  const matchedImage = currentKeyword
-    ? images.find((img) => img.label.toLowerCase().trim() === currentKeyword.toLowerCase().trim())
-    : null;
+  /* -- play audio from /api/live/audio/... -------------------------- */
+  function playAudio(urlPath) {
+    if (audioRef.current) {
+      try { audioRef.current.pause(); } catch (_) {}
+      audioRef.current = null;
+    }
+    const audio = new Audio("/api" + urlPath);
+    audioRef.current = audio;
+    audio.play().catch(() => {});
+  }
 
-  const toggleLive = () => {
+  /* -- connect WS --------------------------------------------------- */
+  function connectWs(sid) {
+    if (wsRef.current) { try { wsRef.current.close(); } catch (_) {} }
+    const wsProto = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const wsUrl = `${wsProto}//${window.location.host}/api/live/stream`;
+    const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
+    ws.onmessage = (evt) => {
+      try {
+        const data = JSON.parse(evt.data);
+        if (data.type === "chunk") {
+          setTranscript((t) => [...t, {
+            id: uid(),
+            time: fmtTime(Math.floor((Date.now() - startAtRef.current) / 1000)),
+            hindi: data.hindi,
+            santali: data.santali,
+            audioUrl: data.audio_url,
+            asr_s: data.asr_s,
+            mt_s: data.mt_s,
+            tts_s: data.tts_s,
+            chunk_s: data.chunk_s,
+          }]);
+          if (data.audio_url) playAudio(data.audio_url);
+          setSessionStats((prev) => ({ ...prev, lastChunk: data }));
+        } else if (data.type === "welcome") {
+          setSessionStats(data);
+        }
+      } catch (_) {}
+    };
+    ws.onerror = () => {};
+    ws.onclose = () => { wsRef.current = null; };
+  }
+
+  /* -- start / stop ------------------------------------------------- */
+  async function toggleLive() {
     if (live) {
+      try { await fetch("/api/live/stop", { method: "POST" }); } catch (_) {}
+      if (wsRef.current) { try { wsRef.current.close(); } catch (_) {} wsRef.current = null; }
+      if (audioRef.current) { try { audioRef.current.pause(); } catch (_) {} audioRef.current = null; }
       setLive(false);
       setRecording(false);
     } else {
-      setLive(true);
-      setTranscript([]);
-      setScriptIndex(0);
-      setElapsed(0);
+      setStatusMsg("Starting session…");
+      try {
+        const res = await fetch("/api/live/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+        const json = await res.json();
+        if (!json.success) { setStatusMsg(json.error || "Failed to start"); return; }
+        setSessionId(json.session_id);
+        setSessionStats(json);
+        startAtRef.current = Date.now();
+        setElapsed(0);
+        setTranscript([]);
+        setStatusMsg("");
+        setLive(true);
+        connectWs(json.session_id);
+      } catch (err) {
+        setStatusMsg("Could not reach backend: " + String(err));
+      }
     }
-  };
+  }
 
+  /* -- visual-aid keyword (check image labels against Hindi words) -- */
+  const lastHindi = transcript.length ? transcript[transcript.length - 1].hindi : "";
+  const hindiWords = lastHindi.split(/\s+/).filter(Boolean);
+  const matchedImage = images.find((img) =>
+    hindiWords.some((w) => img.label && w && img.label.toLowerCase().trim() === w.toLowerCase().trim())
+  );
+  const currentKeyword = matchedImage ? matchedImage.label : null;
+
+  /* -- render ------------------------------------------------------- */
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -260,6 +318,12 @@ function LiveClassroom({ textbook, teacher, images }) {
         </div>
       </div>
 
+      {statusMsg && (
+        <div className="mb-4 px-3 py-2 text-sm" style={{ background: "#FFF8E1", border: `1px solid ${COLOR.ochre}`, borderRadius: 3, color: COLOR.inkSoft, fontFamily: FONT_BODY }}>
+          {statusMsg}
+        </div>
+      )}
+
       <div className="grid grid-cols-3 gap-5">
         {/* Stage */}
         <div className="col-span-2">
@@ -273,7 +337,10 @@ function LiveClassroom({ textbook, teacher, images }) {
               ) : (
                 <div className="text-center px-8">
                   <p style={{ color: "#fff", fontFamily: FONT_HEAD, fontSize: 20 }}>Teacher's audio feed</p>
-                  <p style={{ color: COLOR.ochreSoft, fontFamily: FONT_BODY, fontSize: 13, marginTop: 6 }}>Translating to Santali in real time</p>
+                  <p style={{ color: COLOR.ochreSoft, fontFamily: FONT_BODY, fontSize: 13, marginTop: 6 }}>
+                    {sessionStats.tts_loading ? "GPU TTS warming up…" : "Translating to Santali in real time"}
+                  </p>
+                  {sessionId && <p style={{ color: "rgba(255,255,255,0.35)", fontFamily: FONT_BODY, fontSize: 11, marginTop: 8 }}>session {sessionId}</p>}
                 </div>
               )}
               {recording && (
@@ -302,13 +369,22 @@ function LiveClassroom({ textbook, teacher, images }) {
             <h3 className="mb-3" style={{ fontFamily: FONT_HEAD, color: COLOR.indigo, fontSize: 17 }}>Bilingual transcript</h3>
             <div ref={scrollRef} className="space-y-3 overflow-y-auto" style={{ maxHeight: 220 }}>
               {transcript.length === 0 && (
-                <p style={{ fontFamily: FONT_BODY, color: COLOR.inkSoft, fontSize: 14 }}>Transcript will appear here once class starts.</p>
+                <p style={{ fontFamily: FONT_BODY, color: COLOR.inkSoft, fontSize: 14 }}>
+                  {live ? "Listening for speech…" : "Transcript will appear here once class starts."}
+                </p>
               )}
               {transcript.map((line) => (
                 <div key={line.id} className="caption-enter pb-3" style={{ borderBottom: `1px solid ${COLOR.paperDim}` }}>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 11, color: COLOR.inkSoft, marginBottom: 2 }}>{line.time}</p>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.ink }}>{line.hi}</p>
-                  <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.teal, marginTop: 2 }}>{line.sat}</p>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 11, color: COLOR.inkSoft, marginBottom: 2 }}>
+                    {line.time}
+                    {line.chunk_s != null && (
+                      <span style={{ marginLeft: 8, color: line.chunk_s > 45 ? COLOR.maroon : COLOR.teal }}>
+                        ({line.chunk_s.toFixed(1)}s)
+                      </span>
+                    )}
+                  </p>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.ink }}>{line.hindi}</p>
+                  <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.teal, marginTop: 2 }}>{line.santali}</p>
                 </div>
               ))}
             </div>
@@ -322,10 +398,10 @@ function LiveClassroom({ textbook, teacher, images }) {
             <div style={{ minHeight: 90, background: COLOR.paperDim, borderRadius: 3, padding: 12 }}>
               {transcript.length ? (
                 <p className="caption-enter" style={{ fontFamily: FONT_BODY, fontSize: 16, color: COLOR.teal, lineHeight: 1.5 }}>
-                  {transcript[transcript.length - 1].sat}
+                  {transcript[transcript.length - 1].santali}
                 </p>
               ) : (
-                <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft }}>Waiting for audio…</p>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft }}>{live ? "Listening…" : "Waiting for audio…"}</p>
               )}
             </div>
           </Card>
@@ -951,6 +1027,7 @@ function Worksheets({ textbook }) {
           textbook_id: textbook.textbook_id,
           from_page: Number(textbook.fromPage),
           to_page: Number(textbook.toPage),
+          high_quality: true,
         }),
       });
       const data = await res.json();
@@ -973,9 +1050,11 @@ function Worksheets({ textbook }) {
       w.mcqs.forEach((q) => {
         n += 1;
         parts.push(`${n}. ${q.question}`);
-        q.options.forEach((o, i) => parts.push(`   (${["क", "ख", "ग", "घ"][i]}) ${o}`));
-        parts.push(`   सही उत्तर: ${q.correct_answer}`);
-        if (q.explanation) parts.push(`   व्याख्या: ${q.explanation}`);
+        if (q.question_sat) parts.push(`   ${q.question_sat}`);
+        q.options.forEach((o, i) => {
+          parts.push(`   (${["क", "ख", "ग", "घ"][i]}) ${o}`);
+          if (q.options_sat && q.options_sat[i]) parts.push(`      ${q.options_sat[i]}`);
+        });
       });
     }
     if (w.fill_in_the_blanks.length) {
@@ -983,7 +1062,7 @@ function Worksheets({ textbook }) {
       w.fill_in_the_blanks.forEach((q) => {
         n += 1;
         parts.push(`${n}. ${q.question}`);
-        parts.push(`   उत्तर: ${q.answer}`);
+        if (q.question_sat) parts.push(`   ${q.question_sat}`);
       });
     }
     if (w.true_false.length) {
@@ -991,8 +1070,7 @@ function Worksheets({ textbook }) {
       w.true_false.forEach((q) => {
         n += 1;
         parts.push(`${n}. ${q.statement}`);
-        parts.push(`   उत्तर: ${q.answer ? "सही" : "गलत"}`);
-        if (q.explanation) parts.push(`   व्याख्या: ${q.explanation}`);
+        if (q.statement_sat) parts.push(`   ${q.statement_sat}`);
       });
     }
     const text = parts.join("\n");
@@ -1070,15 +1148,18 @@ function Worksheets({ textbook }) {
                         {q.question_sat && <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.teal }}>{q.question_sat}</p>}
                         <div className="pl-4 space-y-1 mt-1">
                           {q.options.map((o, j) => (
-                            <p key={j} style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft }}>
-                              ({["क", "ख", "ग", "घ"][j]}) {o}
-                            </p>
+                            <div key={j}>
+                              <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft }}>
+                                ({["क", "ख", "ग", "घ"][j]}) {o}
+                              </p>
+                              {q.options_sat && q.options_sat[j] && (
+                                <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.teal, paddingLeft: 18 }}>
+                                  {q.options_sat[j]}
+                                </p>
+                              )}
+                            </div>
                           ))}
                         </div>
-                        <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft, marginTop: 4 }}>
-                          सही उत्तर: {q.correct_answer}
-                          {q.explanation ? ` · व्याख्या: ${q.explanation}` : ""}
-                        </p>
                       </li>
                     ))}
                   </ol>
@@ -1092,7 +1173,6 @@ function Worksheets({ textbook }) {
                       <li key={i}>
                         <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.ink }}>{i + 1}. {q.question}</p>
                         {q.question_sat && <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.teal }}>{q.question_sat}</p>}
-                        <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>उत्तर: {q.answer}</p>
                       </li>
                     ))}
                   </ol>
@@ -1106,10 +1186,6 @@ function Worksheets({ textbook }) {
                       <li key={i}>
                         <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.ink }}>{i + 1}. {q.statement}</p>
                         {q.statement_sat && <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.teal }}>{q.statement_sat}</p>}
-                        <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>
-                          उत्तर: {q.answer ? "सही" : "गलत"}
-                          {q.explanation ? ` · व्याख्या: ${q.explanation}` : ""}
-                        </p>
                       </li>
                     ))}
                   </ol>
@@ -1402,6 +1478,7 @@ function defaultTeacherData() {
     queue: [],
     glossary: [],
     images: [],
+    material: { lessonId: "", worksheet: null, flashcards: null, dictionaryEntries: null },
   };
 }
 
@@ -1467,8 +1544,49 @@ function Login({ knownTeachers, onLogin }) {
 }
 
 /* ---------------------------------------------------------------
-   App shell
+   Error boundary
 ---------------------------------------------------------------- */
+class PageErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Page error boundary caught:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div
+          className="p-8"
+          style={{
+            fontFamily: FONT_BODY,
+            background: COLOR.maroonSoft,
+            border: `1px solid ${COLOR.maroon}`,
+            borderRadius: 4,
+            color: COLOR.maroon,
+          }}
+        >
+          <p style={{ fontWeight: 600, marginBottom: 6 }}>Something went wrong on this page.</p>
+          <p style={{ fontSize: 13 }}>
+            Refresh the page to try again. If the problem persists, check that the backend is running on port 8000.
+          </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+/* ---------------------------------------------------------------
+   App shell
+--------------------------------------------------------------- */
 export default function App() {
   const [currentTeacher, setCurrentTeacher] = useState(null);
   const [teachersData, setTeachersData] = useState({});
@@ -1501,11 +1619,12 @@ export default function App() {
   const setQueue = (v) => updateField("queue", v);
   const setGlossary = (v) => updateField("glossary", v);
   const setImages = (v) => updateField("images", v);
+  const setMaterial = (v) => updateField("material", v);
 
   const renderPage = () => {
     switch (page) {
       case "classroom": return <LiveClassroom textbook={data.textbook} teacher={currentTeacher} images={data.images} />;
-      case "content": return <ContentLibrary textbook={data.textbook} setTextbook={setTextbook} images={data.images} setImages={setImages} />;
+      case "content": return <ContentLibrary textbook={data.textbook} setTextbook={setTextbook} images={data.images} setImages={setImages} material={data.material} setMaterial={setMaterial} setCards={setCards} setQueue={setQueue} />;
       case "flashcards": return <Flashcards cards={data.cards} setCards={setCards} queue={data.queue} setQueue={setQueue} textbook={data.textbook} />;
       case "misconceptions": return <Misconceptions cards={data.cards} />;
       case "worksheets": return <Worksheets textbook={data.textbook} />;
@@ -1564,7 +1683,9 @@ export default function App() {
 
         {/* Content */}
         <div className="flex-1 p-8" style={{ maxWidth: 1180 }}>
-          {renderPage()}
+          <PageErrorBoundary>
+            {renderPage()}
+          </PageErrorBoundary>
         </div>
       </div>
     </div>
