@@ -160,7 +160,7 @@ def _chat(user_content, max_tokens):
 # -------------------------------------------------------------- MCQs
 
 
-def _mcq_prompt(excerpt):
+def _mcq_prompt(excerpt, prior=None):
     return f"""Hindi lesson:
 {excerpt}
 
@@ -181,7 +181,14 @@ Based ONLY on this lesson, create ONE multiple choice question in Hindi. Use exa
 Keep the question short and each option 2-5 words. Output only Hindi, nothing else."""
 
 
-def _mcq_prompt_improved(excerpt):
+def _mcq_prompt_improved(excerpt, prior=None):
+    prior_block = ""
+    if prior:
+        prior_block = (
+            "\n\nAlready-generated questions about this lesson (do NOT repeat these "
+            "and do NOT ask about the same fact again in different wording):\n"
+            + "\n".join(f"- {p}" for p in prior)
+        )
     return f"""Hindi lesson:
 {excerpt}
 
@@ -201,12 +208,14 @@ Based ONLY on this lesson, create ONE multiple choice question in simple Hindi f
 
 Rules:
 - The question must be fully answerable from the lesson text above.
+- The question must have a single, unambiguous correct answer; the three wrong options must be clearly wrong, not partly correct.
 - Exactly one option (क, ख, ग or घ) is the clearly correct answer.
 - All four options must be short (2-5 words each) and roughly similar in length.
 - Distractors must be plausible and related to the lesson, never silly or random.
 - Every detail in the question and options must come from the lesson; never invent facts or numbers.
 - Write clear, grammatical, simple Hindi.
 - Do not repeat a question you have already asked about this lesson.
+{prior_block}
 Output only Hindi, nothing else."""
 
 
@@ -288,12 +297,15 @@ Which option letter (क, ख, ग or घ) is the correct answer? Output only th
 
 def _generate_mcqs(excerpt, quota, high_quality=False):
     items = []
-    attempts_left = quota + MAX_RETRIES_PER_ITEM
+    attempts_left = quota * (1 + MAX_RETRIES_PER_ITEM)
     prompt = _mcq_prompt_improved if high_quality else _mcq_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(prompt(excerpt), max_tokens=250)
+            raw = _chat(
+                prompt(excerpt, prior=[m["question"] for m in items]),
+                max_tokens=250,
+            )
         except GenerationError:
             continue
         mcq = _parse_mcqs(raw)
@@ -312,7 +324,7 @@ def _generate_mcqs(excerpt, quota, high_quality=False):
 # -------------------------------------------------------------- Fill in the blank
 
 
-def _fitb_prompt(excerpt):
+def _fitb_prompt(excerpt, prior=None):
     return f"""Hindi lesson:
 {excerpt}
 
@@ -325,7 +337,14 @@ Based ONLY on this lesson, create ONE fill-in-the-blank question in Hindi. Use e
 Output only Hindi, nothing else."""
 
 
-def _fitb_prompt_improved(excerpt):
+def _fitb_prompt_improved(excerpt, prior=None):
+    prior_block = ""
+    if prior:
+        prior_block = (
+            "\n\nAlready-generated fill-in-the-blank sentences about this lesson "
+            "(do NOT repeat these sentences or re-use the same blanked word):\n"
+            + "\n".join(f"- {p}" for p in prior)
+        )
     return f"""Hindi lesson:
 {excerpt}
 
@@ -340,6 +359,7 @@ Rules:
 - The rest of the sentence must make the missing word clear and unambiguous.
 - The answer must match the word in the lesson spell by spell.
 - Never repeat a sentence you have already used for this lesson.
+{prior_block}
 Output only Hindi, nothing else."""
 
 
@@ -366,12 +386,15 @@ def _parse_fitb(raw):
 
 def _generate_fitb(excerpt, quota, high_quality=False):
     items = []
-    attempts_left = quota + MAX_RETRIES_PER_ITEM
+    attempts_left = quota * (1 + MAX_RETRIES_PER_ITEM)
     prompt = _fitb_prompt_improved if high_quality else _fitb_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(prompt(excerpt), max_tokens=120)
+            raw = _chat(
+                prompt(excerpt, prior=[f["question"] for f in items]),
+                max_tokens=120,
+            )
         except GenerationError:
             continue
         fitb = _parse_fitb(raw)
@@ -384,7 +407,7 @@ def _generate_fitb(excerpt, quota, high_quality=False):
 # -------------------------------------------------------------- True / False
 
 
-def _tf_prompt(excerpt):
+def _tf_prompt(excerpt, prior=None):
     return f"""Hindi lesson:
 {excerpt}
 
@@ -399,7 +422,14 @@ Based ONLY on this lesson, write ONE true/false statement in Hindi. Use exactly 
 Output only Hindi, nothing else."""
 
 
-def _tf_prompt_improved(excerpt):
+def _tf_prompt_improved(excerpt, prior=None):
+    prior_block = ""
+    if prior:
+        prior_block = (
+            "\n\nAlready-generated true/false statements about this lesson "
+            "(do NOT repeat these or ask about the same fact again):\n"
+            + "\n".join(f"- {p}" for p in prior)
+        )
     return f"""Hindi lesson:
 {excerpt}
 
@@ -416,6 +446,7 @@ Rules:
 - A false statement must still look plausible and related to the lesson, never silly.
 - The reason (व्याख्या) must be supported by the lesson.
 - Never repeat a statement you have already used for this lesson.
+{prior_block}
 Output only Hindi, nothing else."""
 
 
@@ -443,12 +474,15 @@ def _parse_tf(raw):
 
 def _generate_tf(excerpt, quota, high_quality=False):
     items = []
-    attempts_left = quota + MAX_RETRIES_PER_ITEM
+    attempts_left = quota * (1 + MAX_RETRIES_PER_ITEM)
     prompt = _tf_prompt_improved if high_quality else _tf_prompt
     while len(items) < quota and attempts_left > 0:
         attempts_left -= 1
         try:
-            raw = _chat(prompt(excerpt), max_tokens=150)
+            raw = _chat(
+                prompt(excerpt, prior=[t["statement"] for t in items]),
+                max_tokens=150,
+            )
         except GenerationError:
             continue
         tf_item = _parse_tf(raw)
@@ -579,20 +613,21 @@ def _generate_flashcards(excerpt, quota, high_quality=False):
 # -------------------------------------------------------------- Top level
 
 
-def generate_learning_material(text, high_quality=False):
+def generate_learning_material(text, high_quality=False, quotas=None):
     excerpt = _lesson_excerpt(text)
     if not excerpt.strip():
         raise GenerationError("No extractable text found in the selected pages.")
 
+    quotas = {**GENERATION_QUOTAS, **(quotas or {})}
     started = time.perf_counter()
     calls = 0
-    mcqs = _generate_mcqs(excerpt, GENERATION_QUOTAS["mcqs"], high_quality)
+    mcqs = _generate_mcqs(excerpt, quotas["mcqs"], high_quality)
     calls += len(mcqs)
-    fitb = _generate_fitb(excerpt, GENERATION_QUOTAS["fill_in_the_blanks"], high_quality)
+    fitb = _generate_fitb(excerpt, quotas["fill_in_the_blanks"], high_quality)
     calls += len(fitb)
-    tf = _generate_tf(excerpt, GENERATION_QUOTAS["true_false"], high_quality)
+    tf = _generate_tf(excerpt, quotas["true_false"], high_quality)
     calls += len(tf)
-    flashcards = _generate_flashcards(excerpt, GENERATION_QUOTAS["flashcards"], high_quality)
+    flashcards = _generate_flashcards(excerpt, quotas["flashcards"], high_quality)
     calls += 1
 
     material, errors = json_validator.validate_material(

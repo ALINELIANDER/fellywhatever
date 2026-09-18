@@ -1,5 +1,6 @@
 import json
 import time
+from typing import Optional
 
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
@@ -25,13 +26,24 @@ class GenerateRequest(BaseModel):
     from_page: int = 1
     to_page: int = 5
     high_quality: bool = False
+    mcq_count: Optional[int] = None
+    fitb_count: Optional[int] = None
+    tf_count: Optional[int] = None
 
 
-def _material_path(textbook_id, from_page, to_page, high_quality=False):
+def _material_path(textbook_id, from_page, to_page, high_quality=False, quotas=None):
     folder = GENERATED_DIR / textbook_id
     folder.mkdir(parents=True, exist_ok=True)
-    suffix = "_hq" if high_quality else ""
-    return folder / f"pages_{from_page}_{to_page}{suffix}.json"
+    name = f"pages_{from_page}_{to_page}"
+    if high_quality:
+        name += "_hq"
+    if quotas:
+        name += "_c{}-{}-{}".format(
+            quotas.get("mcqs", ""),
+            quotas.get("fill_in_the_blanks", ""),
+            quotas.get("true_false", ""),
+        )
+    return folder / f"{name}.json"
 
 
 @router.get("/learning-material/{textbook_id}/{from_page}/{to_page}")
@@ -102,19 +114,34 @@ def generate_learning_material(req: GenerateRequest):
             "No extractable text in the selected pages. Choose a different page range.",
         )
 
-    cache_path = _material_path(req.textbook_id, req.from_page, req.to_page, req.high_quality)
+    quotas = {}
+    for field, name in (
+        (req.mcq_count, "mcqs"),
+        (req.fitb_count, "fill_in_the_blanks"),
+        (req.tf_count, "true_false"),
+    ):
+        if field is not None:
+            if field < 0:
+                return _error(400, "Question counts must be zero or more.")
+            quotas[name] = field
+
+    cache_path = _material_path(
+        req.textbook_id, req.from_page, req.to_page, req.high_quality, quotas or None
+    )
     if cache_path.exists():
         try:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
-            cached["cached"] = True
-            return cached
+            stale_until_translated = TRANSLATION_ENABLED and not cached.get("bilingual")
+            if not stale_until_translated:
+                cached["cached"] = True
+                return cached
         except (json.JSONDecodeError, OSError):
             pass
 
     t_start = time.perf_counter()
     try:
         material, timing = qwen_generator.generate_learning_material(
-            combined_text, high_quality=req.high_quality
+            combined_text, high_quality=req.high_quality, quotas=quotas or None
         )
     except qwen_generator.ModelUnavailable as exc:
         return _error(503, str(exc))

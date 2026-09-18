@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import textbook, learning_material, lesson_dictionary, live_classroom
 
-app = FastAPI(title="Bhasha Setu - Textbook Library Backend", version="0.1.0")
+app = FastAPI(title="GuruDhwani - Textbook Library Backend", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,

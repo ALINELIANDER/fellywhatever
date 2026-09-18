@@ -453,6 +453,8 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
   const [pdfFile, setPdfFile] = useState(null);
   const [generating, setGenerating] = useState("");
   const [generationError, setGenerationError] = useState("");
+  const [askingCounts, setAskingCounts] = useState(false);
+  const [countInputs, setCountInputs] = useState({ mcqs: 5, fitb: 3, tf: 2 });
 
   const handleExtract = async () => {
     if (!pdfFile) return;
@@ -511,27 +513,44 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
 
   const removeImage = (id) => setImages((prev) => prev.filter((img) => img.id !== id));
 
-  const generateMaterial = async () => {
+  const generateMaterial = async (opts = {}) => {
+    const { highQuality = false, counts = null, mode = "worksheet" } = opts;
     if (!textbook.extracted || !textbook.textbook_id) return null;
     const res = await fetch("/api/generate-learning-material", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ textbook_id: textbook.textbook_id, from_page: Number(textbook.fromPage), to_page: Number(textbook.toPage) }),
+      body: JSON.stringify({
+        textbook_id: textbook.textbook_id,
+        from_page: Number(textbook.fromPage), to_page: Number(textbook.toPage),
+        ...(highQuality ? { high_quality: true } : {}),
+        ...(counts ? { mcq_count: counts.mcqs, fitb_count: counts.fitb, tf_count: counts.tf } : {}),
+      }),
     });
     const data = await res.json();
     if (!res.ok || !data.success) throw new Error(data?.error || `HTTP ${res.status}`);
-    setMaterial((previous) => ({ ...previous, lessonId: lessonIdFor(textbook), worksheet: data.worksheet || emptyWorksheet(), flashcards: data.flashcards || [] }));
+    setMaterial((previous) => {
+      const patch = { lessonId: lessonIdFor(textbook) };
+      if (mode === "flashcards") patch.flashcards = data.flashcards || [];
+      else patch.worksheet = data.worksheet || emptyWorksheet();
+      return { ...previous, ...patch };
+    });
     return data;
   };
 
   const generateWorksheet = async () => {
+    setCountInputs({ mcqs: 5, fitb: 3, tf: 2 });
+    setAskingCounts(true);
+  };
+
+  const confirmGenerateWorksheet = async () => {
+    setAskingCounts(false);
     setGenerating("worksheet"); setGenerationError("");
-    try { await generateMaterial(); } catch (err) { setGenerationError(err.message || "Worksheet generation failed."); } finally { setGenerating(""); }
+    try { await generateMaterial({ highQuality: true, counts: countInputs }); } catch (err) { setGenerationError(err.message || "Worksheet generation failed."); } finally { setGenerating(""); }
   };
 
   const generateFlashcards = async () => {
     setGenerating("flashcards"); setGenerationError("");
     try {
-      const data = await generateMaterial();
+      const data = await generateMaterial({ mode: "flashcards" });
       const items = (data.flashcards || []).map((f, i) => ({ id: i + 1, ...f, attempts: 0, notSatisfied: 0 }));
       setCards(items); setQueue(items.map((card) => card.id));
     } catch (err) { setGenerationError(err.message || "Flashcard generation failed."); } finally { setGenerating(""); }
@@ -543,7 +562,7 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
       const lid = lessonIdFor(textbook);
       const res = await fetch("/api/dictionary/generate", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ textbook_id: textbook.textbook_id, from_page: Number(textbook.fromPage), to_page: Number(textbook.toPage), lesson_id: lid, lesson_title: `${textbook.fileName} (pages ${textbook.fromPage}-${textbook.toPage})`, max_words: 50, generate_audio: true }),
+        body: JSON.stringify({ textbook_id: textbook.textbook_id, from_page: Number(textbook.fromPage), to_page: Number(textbook.toPage), lesson_id: lid, lesson_title: `${textbook.fileName} (pages ${textbook.fromPage}-${textbook.toPage})`, max_words: 5 * (Number(textbook.toPage) - Number(textbook.fromPage) + 1), generate_audio: true }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data?.error || `HTTP ${res.status}`);
@@ -645,11 +664,47 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
             <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft, marginBottom: 14 }}>
               Use the extracted lesson above. Generated teacher materials are kept with this lesson and reused on the other pages.
             </p>
-            <div className="flex gap-3 flex-wrap">
-              <Button variant="ochre" onClick={generateWorksheet} disabled={!!generating}>{generating === "worksheet" ? "Generating worksheet…" : "Auto-Generate Worksheet"}</Button>
-              <Button variant="teal" onClick={generateFlashcards} disabled={!!generating}>{generating === "flashcards" ? "Generating flashcards…" : "Auto-Generate Flashcards"}</Button>
-              <Button variant="outline" onClick={generateDictionary} disabled={!!generating}>{generating === "dictionary" ? "Generating dictionary + audio…" : "Auto-Generate Dictionary"}</Button>
-            </div>
+            {askingCounts ? (
+              <div>
+                <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft, marginBottom: 10 }}>
+                  Choose how many questions of each type to generate:
+                </p>
+                <div className="flex gap-4 flex-wrap">
+                  {[
+                    { key: "mcqs", label: "Choose the following" },
+                    { key: "fitb", label: "Fill in the blanks" },
+                    { key: "tf", label: "True or False" },
+                  ].map(({ key, label }) => (
+                    <div key={key}>
+                      <label style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>{label}</label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={20}
+                        value={countInputs[key]}
+                        onChange={(e) => setCountInputs((prev) => ({ ...prev, [key]: Math.max(1, Math.min(20, Number(e.target.value) || 1)) }))}
+                        className="block mt-1 px-2 py-1.5 text-sm"
+                        style={{ width: 92, border: `1px solid ${COLOR.line}`, borderRadius: 3, fontFamily: FONT_BODY }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-3 mt-4">
+                  <Button variant="ochre" onClick={confirmGenerateWorksheet} disabled={!!generating}>
+                    {generating === "worksheet" ? "Generating worksheet…" : "Generate worksheet"}
+                  </Button>
+                  <Button variant="outline" onClick={() => setAskingCounts(false)} disabled={!!generating}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex gap-3 flex-wrap">
+                <Button variant="ochre" onClick={generateWorksheet} disabled={!!generating}>{generating === "worksheet" ? "Generating worksheet…" : "Auto-Generate Worksheet"}</Button>
+                <Button variant="teal" onClick={generateFlashcards} disabled={!!generating}>{generating === "flashcards" ? "Generating flashcards…" : "Auto-Generate Flashcards"}</Button>
+                <Button variant="outline" onClick={generateDictionary} disabled={!!generating}>{generating === "dictionary" ? "Generating dictionary + audio…" : "Auto-Generate Dictionary"}</Button>
+              </div>
+            )}
             {generationError && <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.maroon, marginTop: 12 }}>{generationError}</p>}
           </Card>
 
@@ -662,8 +717,8 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
                 {q.options.map((option, j) => <p key={j} className="pl-4" style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>{String.fromCharCode(65 + j)}. {option}{q.options_sat?.[j] ? ` — ${q.options_sat[j]}` : ""}</p>)}
                 <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.teal, marginTop: 3 }}>Correct answer: {q.correct_answer}{q.correct_answer_sat ? ` — ${q.correct_answer_sat}` : ""}{q.explanation ? ` · ${q.explanation}` : ""}</p>
               </div>)}
-              {material.worksheet.fill_in_the_blanks.map((q, i) => <p key={`fill-${i}`} style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>Fill-in: {q.question} — Answer: {q.answer}</p>)}
-              {material.worksheet.true_false.map((q, i) => <p key={`tf-${i}`} style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>True/False: {q.statement} — Answer: {q.answer ? "True" : "False"}{q.explanation ? ` · ${q.explanation}` : ""}</p>)}
+              {material.worksheet.fill_in_the_blanks.map((q, i) => <p key={`fill-${i}`} style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>Fill-in: {q.question}{q.question_sat ? ` — ${q.question_sat}` : ""} — Answer: {q.answer}</p>)}
+              {material.worksheet.true_false.map((q, i) => <p key={`tf-${i}`} style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft }}>True/False: {q.statement}{q.statement_sat ? ` — ${q.statement_sat}` : ""} — Answer: {q.answer ? "True" : "False"}{q.explanation ? ` · ${q.explanation}` : ""}</p>)}
             </Card>
           )}
           {material.flashcards && (
@@ -1007,39 +1062,7 @@ function Misconceptions({ cards }) {
 /* ---------------------------------------------------------------
    PAGE 5 — Worksheets
 ---------------------------------------------------------------- */
-function Worksheets({ textbook }) {
-  const [worksheet, setWorksheet] = useState(null);
-  const [generating, setGenerating] = useState(false);
-  const [genError, setGenError] = useState("");
-
-  const generate = async () => {
-    if (!textbook.extracted || !textbook.textbook_id) {
-      setGenError("Upload and extract a textbook in Content Library first.");
-      return;
-    }
-    setGenerating(true);
-    setGenError("");
-    try {
-      const res = await fetch("/api/generate-learning-material", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          textbook_id: textbook.textbook_id,
-          from_page: Number(textbook.fromPage),
-          to_page: Number(textbook.toPage),
-          high_quality: true,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data && data.error ? data.error : `HTTP ${res.status}`);
-      setWorksheet(data.worksheet || { mcqs: [], fill_in_the_blanks: [], true_false: [] });
-    } catch (err) {
-      setGenError(err.message || "Generation failed.");
-    } finally {
-      setGenerating(false);
-    }
-  };
-
+function Worksheets({ textbook, worksheet }) {
   const download = () => {
     if (!worksheet) return;
     const w = worksheet;
@@ -1097,27 +1120,21 @@ function Worksheets({ textbook }) {
       />
       <div className="grid grid-cols-3 gap-6">
         <Card>
-          <h3 className="mb-4" style={{ fontFamily: FONT_HEAD, color: COLOR.indigo, fontSize: 16 }}>Generate worksheet</h3>
-          {textbook.extracted && textbook.textbook_id ? (
+          <h3 className="mb-4" style={{ fontFamily: FONT_HEAD, color: COLOR.indigo, fontSize: 16 }}>Worksheet status</h3>
+          {worksheet ? (
             <div>
               <Tag color={COLOR.teal} bg={COLOR.tealSoft}>Ready</Tag>
               <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.ink, marginTop: 10 }}>
                 {textbook.fileName} · pages {textbook.fromPage}–{textbook.toPage}
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.inkSoft, marginTop: 6 }}>
-                Generates MCQs, fill-in-the-blanks and true/false from these pages.
+                This worksheet is generated once in Content Library and shared here. Generating there updates it in both places.
               </p>
-              <Button variant="ochre" style={{ marginTop: 16 }} onClick={generate} disabled={generating}>
-                {generating ? "Generating…" : "Generate worksheet"}
-              </Button>
             </div>
           ) : (
             <p style={{ fontFamily: FONT_BODY, fontSize: 13, color: COLOR.inkSoft, lineHeight: 1.5 }}>
-              No textbook ready yet. Extract one in <strong>Content Library</strong> first.
+              No worksheet yet. Open <strong>Content Library</strong>, click <strong>Generate Worksheet</strong>, and choose the question counts.
             </p>
-          )}
-          {genError && (
-            <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: COLOR.maroon, marginTop: 12, lineHeight: 1.45 }}>{genError}</p>
           )}
         </Card>
 
@@ -1126,14 +1143,9 @@ function Worksheets({ textbook }) {
             <h3 style={{ fontFamily: FONT_HEAD, color: COLOR.indigo, fontSize: 16 }}>Preview</h3>
             {worksheet && <Button variant="outline" icon={Download} onClick={download}>Download</Button>}
           </div>
-          {generating && (
-            <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.ochre }}>
-              Generating questions from pages {textbook.fromPage}–{textbook.toPage}… this takes a minute or two.
-            </p>
-          )}
-          {!worksheet && !generating && (
+          {!worksheet && (
             <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: COLOR.inkSoft }}>
-              Press "Generate worksheet" to create questions from the extracted pages.
+              The worksheet generated in Content Library will appear here.
             </p>
           )}
           {worksheet && (
@@ -1272,7 +1284,7 @@ function Dictionary({ textbook }) {
           to_page: Number(textbook.toPage),
           lesson_id: "",
           lesson_title: "",
-          max_words: 50,
+          max_words: 5 * (Number(textbook.toPage) - Number(textbook.fromPage) + 1),
         }),
       });
       const data = await res.json();
@@ -1496,7 +1508,7 @@ function Login({ knownTeachers, onLogin }) {
       <FontImport />
       <div style={{ width: 380 }}>
         <div className="text-center mb-8">
-          <p style={{ fontFamily: FONT_HEAD, color: "#fff", fontSize: 26, fontWeight: 600 }}>Bhasha Setu</p>
+          <p style={{ fontFamily: FONT_HEAD, color: "#fff", fontSize: 26, fontWeight: 600 }}>GuruDhwani</p>
           <p style={{ fontFamily: FONT_BODY, color: COLOR.ochreSoft, fontSize: 13, marginTop: 4 }}>Santali classroom assistant</p>
         </div>
 
@@ -1627,7 +1639,7 @@ export default function App() {
       case "content": return <ContentLibrary textbook={data.textbook} setTextbook={setTextbook} images={data.images} setImages={setImages} material={data.material} setMaterial={setMaterial} setCards={setCards} setQueue={setQueue} />;
       case "flashcards": return <Flashcards cards={data.cards} setCards={setCards} queue={data.queue} setQueue={setQueue} textbook={data.textbook} />;
       case "misconceptions": return <Misconceptions cards={data.cards} />;
-      case "worksheets": return <Worksheets textbook={data.textbook} />;
+      case "worksheets": return <Worksheets textbook={data.textbook} worksheet={data.material.worksheet} />;
       case "dictionary": return <Dictionary textbook={data.textbook} />;
       default: return null;
     }
@@ -1640,7 +1652,7 @@ export default function App() {
         {/* Sidebar */}
         <div style={{ width: 220, background: COLOR.indigo, minHeight: "100vh" }} className="flex-shrink-0 py-6 px-3 flex flex-col">
           <div className="px-3 mb-8">
-            <p style={{ fontFamily: FONT_HEAD, color: "#fff", fontSize: 18, fontWeight: 600 }}>Bhasha Setu</p>
+            <p style={{ fontFamily: FONT_HEAD, color: "#fff", fontSize: 18, fontWeight: 600 }}>GuruDhwani</p>
             <p style={{ fontFamily: FONT_BODY, color: COLOR.ochreSoft, fontSize: 11, marginTop: 2 }}>Santali classroom assistant</p>
           </div>
           <nav className="space-y-1" style={{ flex: 1 }}>
