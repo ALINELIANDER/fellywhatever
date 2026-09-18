@@ -1,0 +1,188 @@
+{
+  "success": true,
+  "textbook_id": "textbook_0f61fcc411",
+  "filename": "chve103.pdf",
+  "from_page": 1,
+  "to_page": 5,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "कितने पैरों हैं?",
+        "options": [
+          "दो",
+          "साल",
+          "चार",
+          "मुड़ना"
+        ],
+        "correct_answer": "चार",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱢᱮᱱᱟᱜᱼᱟ?",
+        "options_sat": [
+          "ᱱᱚᱶᱟ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+          "ᱥᱮᱨᱢᱟ ᱾",
+          "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾",
+          "ᱨᱩᱣᱟᱹᱲ ᱢᱮ ᱾"
+        ],
+        "correct_answer_sat": "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "वह कितने पैरों साथ हुआ जब चलता है?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱪᱟᱞᱟᱣᱟᱱ ᱚᱠᱛᱚ ᱩᱱᱤ ᱫᱚ ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱮ ᱪᱟᱞᱟᱣ ᱞᱮᱱᱟ?",
+        "options_sat": [
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾",
+          "5 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर चतुष्पाद होते?",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱪ ᱪᱚᱛᱩᱨᱼᱯᱷᱚᱞᱚᱠ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ?",
+        "options_sat": [
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾",
+          "5 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर होते हुए चलता है?",
+        "options": [
+          "साधी",
+          "महँसी",
+          "शेही",
+          "बड़ी"
+        ],
+        "correct_answer": "शेही",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱪᱟᱞᱟᱣ ᱟᱠᱟᱱᱟ?",
+        "options_sat": [
+          "ᱥᱟᱫᱷᱟᱹ ᱾",
+          "ᱜᱚᱱᱚᱝᱟᱱ ᱾",
+          "ᱥᱮᱦᱤ ᱾",
+          "ᱢᱟᱨᱟᱝ ᱾"
+        ],
+        "correct_answer_sat": "ᱥᱮᱦᱤ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर होता जायगी?",
+        "options": [
+          "संख्या 1",
+          "संख्या 2",
+          "संख्या 3",
+          "संख्या 4"
+        ],
+        "correct_answer": "संख्या 4",
+        "explanation": "",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱦᱩᱭᱩᱜ ᱟ?",
+        "options_sat": [
+          "ᱱᱟᱢᱵᱟᱨ 1 ᱾",
+          "ᱱᱟᱢᱵᱟᱨ 2 ᱾",
+          "ᱱᱟᱢᱵᱟᱨ 3 ᱾",
+          "ᱱᱟᱢᱵᱟᱨ 4 ᱾"
+        ],
+        "correct_answer_sat": "ᱱᱟᱢᱵᱟᱨ 4 ᱾",
+        "explanation_sat": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "उसे कितने पैरों पर सबूतकर चलता है? ____।",
+        "answer": "मञ्जुल",
+        "question_sat": "ᱩᱱᱤ ᱫᱚ ᱛᱤᱱᱟᱹᱜ ᱯᱷᱩᱴ ᱮ ᱪᱟᱞᱟᱣ ᱟᱠᱟᱱᱟ? _ _ _ _ _ _",
+        "answer_sat": "ᱢᱮᱞᱟᱱ ᱫᱚ ᱾"
+      },
+      {
+        "question": "चार पैरों का समीकरण है: ____।",
+        "answer": "छठे",
+        "question_sat": "ᱯᱳᱱ ᱯᱷᱩᱴ ᱨᱮᱭᱟᱜ ᱮᱥᱮᱨᱟᱱ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ _ _ _ _ _ _ _ ᱾",
+        "answer_sat": "ᱛᱩᱨᱩᱭ ᱟᱱᱟᱜ ᱾"
+      },
+      {
+        "question": "कितने पैर आगे बढ़ता है? ____।",
+        "answer": "मञ्जुल",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱞᱟᱦᱟ ᱪᱟᱞᱟᱣ ᱟᱠᱟᱱᱟ?",
+        "answer_sat": "ᱢᱮᱞᱟᱱ ᱫᱚ ᱾"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "वह कुछ पैरों पर स्थित है।",
+        "answer": true,
+        "explanation": "2-5 words",
+        "statement_sat": "ᱩᱱᱤ ᱫᱚ ᱠᱤᱪᱷᱩᱜᱟᱱ ᱯᱮᱨᱮᱪ ᱨᱮ ᱢᱮᱱᱟᱜᱼᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "2-5 ᱜᱚᱴᱟᱝ ᱠᱟᱛᱷᱟ ᱾"
+      },
+      {
+        "statement": "जब प्रश्न सांगता है, तो दो पैरे पर कौदकर चलती हैं।",
+        "answer": true,
+        "explanation": "मुझसे जब प्रश्न सांगने, तो दो पैरों पर कौदकर चलती हैं।",
+        "statement_sat": "ᱡᱚᱠᱷᱚᱱ ᱯᱚᱨᱤᱢᱟᱱ ᱫᱚ ᱞᱟᱹᱭᱚᱜᱼᱟ, ᱩᱱᱫᱚ ᱵᱟᱨᱭᱟ ᱦᱚᱲ ᱯᱮᱨᱮᱪ ᱨᱮ ᱞᱟᱹᱞᱤᱥ ᱠᱟᱛᱮ ᱠᱚ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "ᱤᱧ ᱴᱷᱮᱱ ᱯᱚᱨᱤᱢᱟᱱ ᱮᱢ ᱚᱠᱛᱚ, ᱩᱱᱤ ᱫᱚ ᱵᱟᱨᱭᱟ ᱯᱮᱨᱮᱪ ᱮ ᱪᱟᱞᱟᱣ ᱮᱱᱟ ᱾"
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "कितने पैर?",
+      "back": "चतुष्पाद",
+      "front_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱢᱮᱱᱟᱜᱼᱟ?",
+      "back_sat": "ᱪᱚᱛᱩᱨᱥᱯᱟᱰ ᱾"
+    },
+    {
+      "front": "जब वह धीरे हो था,",
+      "back": "झुककर चलता रहता।",
+      "front_sat": "ᱡᱚᱠᱷᱚᱱ ᱩᱱᱤ ᱫᱚ ᱠᱚᱢ ᱮ ᱛᱟᱦᱮᱸ ᱠᱟᱱᱟ,",
+      "back_sat": "ᱞᱤᱪᱟᱹᱲ ᱠᱟᱛᱮ ᱪᱟᱞᱟᱣ ᱮᱱᱟ ᱾"
+    },
+    {
+      "front": "कभी-कभी आगे बढ़ता हैं,",
+      "back": "मञ्जुल भार्गव।",
+      "front_sat": "ᱠᱤᱪᱷᱩ ᱚᱠᱛᱚ ᱨᱮ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ,",
+      "back_sat": "ᱢᱟᱱᱡᱩᱞ ᱵᱷᱟᱨᱜᱚᱵ ᱾"
+    },
+    {
+      "front": "चतुष्पैर",
+      "back": "पचकँ",
+      "front_sat": "ᱪᱚᱛᱩᱨᱼᱪᱚᱛᱩᱨ ᱾",
+      "back_sat": "ᱯᱮᱥᱤ ᱾"
+    },
+    {
+      "front": "कितना पैर",
+      "back": "चतुष्पाद",
+      "front_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱾",
+      "back_sat": "ᱪᱚᱛᱩᱨᱥᱯᱟᱰ ᱾"
+    }
+  ],
+  "bilingual": true,
+  "cached": false,
+  "translation": {
+    "source": "hin_Deva",
+    "target": "sat_Olck",
+    "model": "ai4bharat/indictrans2-indic-indic-dist-320M"
+  }
+}

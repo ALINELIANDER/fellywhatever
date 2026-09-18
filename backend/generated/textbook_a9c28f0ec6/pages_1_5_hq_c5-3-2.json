@@ -1,0 +1,168 @@
+{
+  "success": true,
+  "textbook_id": "textbook_a9c28f0ec6",
+  "filename": "chve103.pdf",
+  "from_page": 1,
+  "to_page": 5,
+  "worksheet": {
+    "mcqs": [
+      {
+        "question": "कितने पैर बच्चों में सभी हैं?",
+        "options": [
+          "दो",
+          "छाया",
+          "आठ",
+          "धटक"
+        ],
+        "correct_answer": "छाया",
+        "explanation": "",
+        "question_sat": "ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ ᱢᱩᱫᱨᱮ ᱛᱤᱱᱟᱹᱜ ᱯᱮᱪ ᱥᱟᱱᱟᱢᱟᱜ ᱢᱮᱱᱟᱜᱼᱟ?",
+        "options_sat": [
+          "ᱱᱚᱶᱟ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+          "ᱥᱟᱫᱟ ᱾",
+          "8 ᱜᱚᱴᱟᱝ ᱾",
+          "ᱦᱳᱞᱰᱚᱠ ᱾"
+        ],
+        "correct_answer_sat": "ᱥᱟᱫᱟ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर बच्चों में सभी है?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct_answer": "3",
+        "explanation": "",
+        "question_sat": "ᱜᱤᱫᱽᱨᱟᱹ ᱠᱚ ᱢᱩᱫᱨᱮ ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ ᱥᱟᱱᱟᱢᱟᱜ ᱢᱮᱱᱟᱜᱼᱟ?",
+        "options_sat": [
+          "1 ᱾",
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾"
+        ],
+        "correct_answer_sat": "3 ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर जब वह चार से भी लगता है?",
+        "options": [
+          "दो",
+          "छ",
+          "सेहट 20",
+          "अधिक"
+        ],
+        "correct_answer": "अधिक",
+        "explanation": "",
+        "question_sat": "ᱩᱱᱤ ᱫᱚ ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱠᱷᱚᱱ ᱦᱚᱸ ᱛᱤᱱᱟᱹᱜ ᱯᱮᱜᱩᱱ ᱮ ᱦᱟᱛᱟᱣ ᱞᱮᱫᱟ?",
+        "options_sat": [
+          "ᱱᱚᱶᱟ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+          "ᱱᱚᱶᱟ ᱫᱚ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+          "ᱥᱮᱦᱚᱛ 20 ᱾",
+          "ᱟᱨᱦᱚᱸ ᱡᱟᱹᱥᱛᱤ ᱾"
+        ],
+        "correct_answer_sat": "ᱟᱨᱦᱚᱸ ᱡᱟᱹᱥᱛᱤ ᱾",
+        "explanation_sat": ""
+      },
+      {
+        "question": "कितने पैर जब वह दो से ही लगता है?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct_answer": "4",
+        "explanation": "",
+        "question_sat": "ᱩᱱᱤ ᱫᱚ ᱵᱟᱨᱭᱟ ᱥᱮᱫ ᱠᱷᱚᱱ ᱪᱮᱫ ᱜᱟᱱ ᱯᱮᱪ ᱮ ᱦᱟᱛᱟᱣ ᱞᱮᱫᱟ?",
+        "options_sat": [
+          "1 ᱾",
+          "2 ᱾",
+          "3 ᱾",
+          "4 ᱾"
+        ],
+        "correct_answer_sat": "4 ᱾",
+        "explanation_sat": ""
+      }
+    ],
+    "fill_in_the_blanks": [
+      {
+        "question": "कितने पैर? ____।",
+        "answer": "चार",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ? _ _ _ _ _ _",
+        "answer_sat": "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾"
+      },
+      {
+        "question": "कितने झुककर पैरों? ____।",
+        "answer": "चार",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱮᱪ? _ _ _ _ _ _",
+        "answer_sat": "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾"
+      },
+      {
+        "question": "कितने बैठकर पैरों? ____।",
+        "answer": "चार।",
+        "question_sat": "ᱛᱤᱱᱟᱹᱜ ᱜᱷᱩᱨᱩᱢ ᱨᱮ ᱥᱮᱱ ᱟᱠᱟᱱᱟ?",
+        "answer_sat": "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾"
+      }
+    ],
+    "true_false": [
+      {
+        "statement": "जब पैरों की समस्याएँ होते हैं, मदिरा भुगव नहीं.",
+        "answer": true,
+        "explanation": "वहने और जब पूछे।",
+        "statement_sat": "ᱯᱮᱨᱮᱪ ᱨᱮᱭᱟᱜ ᱟᱱᱟᱴ ᱦᱩᱭ ᱞᱮᱱ ᱠᱷᱟᱱ, ᱮᱞᱠᱳᱦᱚᱞ ᱨᱮᱭᱟᱜ ᱞᱟᱹᱞᱤᱥ ᱵᱟᱝ ᱦᱩᱭᱩᱜᱼᱟ ᱾",
+        "answer_sat": "ᱱᱟᱯᱟᱭ ᱾",
+        "explanation_sat": "ᱩᱱᱤ ᱟᱨ ᱡᱚᱠᱷᱚᱱ ᱩᱱᱤ ᱮ ᱵᱟᱰᱟᱭ ᱞᱮᱫᱮᱭᱟ ᱾"
+      },
+      {
+        "statement": "जब पैरों की समस्याएँ होते हुए, मदिरा भुगव नहीं।",
+        "answer": false,
+        "explanation": "",
+        "statement_sat": "ᱯᱮᱨᱮᱪ ᱨᱮᱭᱟᱜ ᱟᱱᱟᱴ ᱦᱩᱭ ᱞᱮᱱ ᱠᱷᱟᱱ, ᱮᱞᱠᱳᱦᱚᱞ ᱫᱚ ᱵᱟᱝ ᱦᱩᱭᱩᱜᱼᱟ ᱾",
+        "answer_sat": "ᱵᱟᱝ ᱦᱩᱭᱩᱜ ᱠᱟᱱᱟ ᱾",
+        "explanation_sat": ""
+      }
+    ]
+  },
+  "flashcards": [
+    {
+      "front": "कितने पैर?",
+      "back": "चार",
+      "front_sat": "ᱛᱤᱱᱟᱹᱜ ᱯᱮᱨᱤ ᱢᱮᱱᱟᱜᱼᱟ?",
+      "back_sat": "ᱯᱳᱱ ᱜᱚᱴᱟᱝ ᱾"
+    },
+    {
+      "front": "मंजुल भार्गव",
+      "back": "आगे बढ़ता है",
+      "front_sat": "ᱢᱟᱱᱡᱩᱞ ᱵᱷᱟᱨᱜᱚᱵ ᱾",
+      "back_sat": "ᱢᱟᱲᱟᱝ ᱥᱮᱫ ᱪᱟᱞᱟᱣ ᱢᱮ ᱾"
+    },
+    {
+      "front": "वह किस प्रकार से चलता है?",
+      "back": "जब तेजी से चलता है, लेकिन जब धीरे चलता है",
+      "front_sat": "ᱩᱱᱤ ᱪᱮᱫ ᱞᱮᱠᱟᱛᱮ ᱪᱟᱞᱟᱣᱚᱜ ᱠᱟᱱᱟ?",
+      "back_sat": "ᱡᱟᱦᱟᱸ ᱚᱠᱛᱮ ᱟᱹᱰᱤ ᱞᱚᱜᱚᱱ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ, ᱢᱮᱱᱠᱷᱟᱱ ᱡᱟᱦᱟᱸ ᱚᱠᱛᱮ ᱠᱚᱢ ᱚᱠᱛᱚ ᱨᱮ ᱪᱟᱞᱟᱣᱚᱜᱼᱟ ᱾"
+    },
+    {
+      "front": "कभी-कभी उसे दो पूँछ",
+      "back": "कहते हैं",
+      "front_sat": "ᱠᱤᱪᱷᱩ ᱚᱠᱛᱮ ᱩᱱᱤ ᱫᱚ ᱵᱟᱨᱭᱟ ᱞᱟᱹᱞᱤᱥ ᱮ ᱧᱟᱢ ᱞᱮᱫᱟ ᱾",
+      "back_sat": "ᱞᱟᱹᱭ ᱟᱠᱟᱫᱟ ᱾"
+    },
+    {
+      "front": "म्यानमार सरकार",
+      "back": "मेला",
+      "front_sat": "ᱢᱚᱭᱱᱟᱢᱟᱨ ᱥᱚᱨᱠᱟᱨ ᱾",
+      "back_sat": "ᱢᱮᱞᱟᱱ ᱫᱚ ᱾"
+    }
+  ],
+  "bilingual": true,
+  "cached": false,
+  "translation": {
+    "source": "hin_Deva",
+    "target": "sat_Olck",
+    "model": "ai4bharat/indictrans2-indic-indic-dist-320M"
+  }
+}

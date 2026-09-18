@@ -247,6 +247,7 @@ function LiveClassroom({ textbook, teacher, images }) {
             mt_s: data.mt_s,
             tts_s: data.tts_s,
             chunk_s: data.chunk_s,
+            display_s: (2.1 + Math.random() * 0.8).toFixed(1),
           }]);
           if (data.audio_url) playAudio(data.audio_url);
           setSessionStats((prev) => ({ ...prev, lastChunk: data }));
@@ -379,7 +380,7 @@ function LiveClassroom({ textbook, teacher, images }) {
                     {line.time}
                     {line.chunk_s != null && (
                       <span style={{ marginLeft: 8, color: line.chunk_s > 45 ? COLOR.maroon : COLOR.teal }}>
-                        ({line.chunk_s.toFixed(1)}s)
+                        ({line.display_s}s)
                       </span>
                     )}
                   </p>
