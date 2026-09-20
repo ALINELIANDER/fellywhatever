@@ -41,7 +41,7 @@ DESCRIPTION = {
     ),
 }
 
-_MAX_NEW_TOKENS = {"hindi": 80, "santali": 80}
+_MAX_NEW_TOKENS = {"hindi": 256, "santali": 256}
 
 
 class TTSError(Exception):

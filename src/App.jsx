@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   Cast,
   BookOpen,
@@ -20,6 +20,7 @@ import {
   User,
   LogOut,
 } from "lucide-react";
+import { latestVisualAidMatch } from "./utils/visualAidMatch";
 
 /* ---------------------------------------------------------------
    Design tokens
@@ -192,10 +193,36 @@ function LiveClassroom({ textbook, teacher, images }) {
   const [sessionId, setSessionId] = useState(null);
   const [sessionStats, setSessionStats] = useState({});
   const [statusMsg, setStatusMsg] = useState("");
+  const [matchedImage, setMatchedImage] = useState(null);
+  const [visualAids, setVisualAids] = useState([]);
   const scrollRef = useRef(null);
   const wsRef = useRef(null);
   const audioRef = useRef(null);
   const startAtRef = useRef(null);
+
+  /* -- current lesson's stored visual aids (existing SQLite data) ----- */
+  const liveLessonId = textbook.extracted && textbook.textbook_id ? lessonIdFor(textbook) : "";
+  useEffect(() => {
+    setMatchedImage(null);
+    setVisualAids([]);
+    if (!liveLessonId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/visual-aids/${encodeURIComponent(liveLessonId)}`);
+        const data = await res.json();
+        if (res.ok && data.success && !cancelled) setVisualAids(data.images || []);
+      } catch (_) {}
+    })();
+    return () => { cancelled = true; };
+  }, [liveLessonId]);
+
+  /* -- label match on the existing recognized teacher text ------------ */
+  const matched = useMemo(() => latestVisualAidMatch(transcript, visualAids), [transcript, visualAids]);
+  useEffect(() => {
+    if (matched) setMatchedImage((prev) => (prev && prev.id === matched.id ? prev : matched));
+  }, [matched]);
+  const currentKeyword = matchedImage ? matchedImage.label : null;
 
   /* -- elapsed timer ------------------------------------------------ */
   useEffect(() => {
@@ -287,14 +314,6 @@ function LiveClassroom({ textbook, teacher, images }) {
       }
     }
   }
-
-  /* -- visual-aid keyword (check image labels against Hindi words) -- */
-  const lastHindi = transcript.length ? transcript[transcript.length - 1].hindi : "";
-  const hindiWords = lastHindi.split(/\s+/).filter(Boolean);
-  const matchedImage = images.find((img) =>
-    hindiWords.some((w) => img.label && w && img.label.toLowerCase().trim() === w.toLowerCase().trim())
-  );
-  const currentKeyword = matchedImage ? matchedImage.label : null;
 
   /* -- render ------------------------------------------------------- */
   return (
@@ -501,18 +520,45 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
   const handleImageFile = (file) => {
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setPendingFile({ fileName: file.name, dataUrl: reader.result });
+    reader.onload = () => setPendingFile({ fileName: file.name, dataUrl: reader.result, file });
     reader.readAsDataURL(file);
   };
 
-  const addImage = () => {
+  useEffect(() => {
+    if (!textbook.extracted || !textbook.textbook_id) return;
+    const lid = lessonIdFor(textbook);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/visual-aids/${encodeURIComponent(lid)}`);
+        const data = await res.json();
+        if (res.ok && data.success && !cancelled) setImages(data.images || []);
+      } catch (_) {}
+    })();
+    return () => { cancelled = true; };
+  }, [textbook.textbook_id, textbook.fromPage, textbook.toPage, textbook.extracted]);
+
+  const addImage = async () => {
     if (!imgLabel.trim() || !pendingFile) return;
-    setImages((prev) => [...prev, { id: uid(), label: imgLabel.trim(), fileName: pendingFile.fileName, dataUrl: pendingFile.dataUrl }]);
-    setImgLabel("");
-    setPendingFile(null);
+    if (!textbook.extracted || !textbook.textbook_id) return;
+    const fd = new FormData();
+    fd.append("lesson_id", lessonIdFor(textbook));
+    fd.append("label", imgLabel.trim());
+    fd.append("file", pendingFile.file, pendingFile.fileName);
+    try {
+      const res = await fetch("/api/visual-aids", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error((data && data.error) || `HTTP ${res.status}`);
+      setImages((prev) => [...prev, data.image]);
+      setImgLabel("");
+      setPendingFile(null);
+    } catch (_) {}
   };
 
-  const removeImage = (id) => setImages((prev) => prev.filter((img) => img.id !== id));
+  const removeImage = (id) => {
+    fetch(`/api/visual-aids/${id}`, { method: "DELETE" }).catch(() => {});
+    setImages((prev) => prev.filter((img) => img.id !== id));
+  };
 
   const generateMaterial = async (opts = {}) => {
     const { highQuality = false, counts = null, mode = "worksheet" } = opts;
@@ -763,7 +809,7 @@ function ContentLibrary({ textbook, setTextbook, images, setImages, material, se
               {pendingFile ? pendingFile.fileName : "Choose image"}
               <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageFile(e.target.files[0])} />
             </label>
-            <Button variant="ochre" icon={Plus} onClick={addImage} disabled={!imgLabel.trim() || !pendingFile}>
+            <Button variant="ochre" icon={Plus} onClick={addImage} disabled={!imgLabel.trim() || !pendingFile || !textbook.extracted}>
               Add image
             </Button>
           </div>
